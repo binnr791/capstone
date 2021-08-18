@@ -10,16 +10,18 @@ public class healthpoint : MonoBehaviour
    // private GameManager hp; 체력 레퍼런스 가져오기
     public Text point;
     // Start is called before the first frame update
+    
     void Start()
     {
-    //    hp = gameObject.GetComponent<GameManager>(); 체력 레퍼런스 가져오기
+        // = gameObject.GetComponent<GameManager>(); 체력 레퍼런스 가져오기
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        hpBar.value = (float) hp.health1 / (float)100; //체력 레퍼런스 가져오기
+        hpBar.value = (float) GameManager.instance.health1 / (float) 100; //체력 레퍼런스 가져오기
 
-        point.text =  + " /100"; //체력 레퍼런스 가져오기
+        //point.text =  + " /100"; //체력 레퍼런스 가져오기
     }
 }

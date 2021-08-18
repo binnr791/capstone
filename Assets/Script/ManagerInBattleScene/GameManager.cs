@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[DefaultExecutionOrder(-10)] // 먼저 초기화함
+
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
     public int health1 = 100;
     public int stamina1;
     
@@ -24,10 +28,12 @@ public class GameManager : MonoBehaviour
     public Text UIcycle;
     // Start is called before the first frame update
 
-
-    void Start()
+    private void Awake()
     {
-        
+        if(instance != null)
+        {
+            instance = this;
+        }
     }
 
     // Update is called once per frame
