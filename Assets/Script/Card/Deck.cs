@@ -56,6 +56,11 @@ public class Deck : MonoBehaviour
         return cardToDraw;
     }
 
+    public void DrawCardDebugVer()
+    {
+        DrawCard();
+    }
+
     public void RemoveCardAt(int index)
     {
         deck.RemoveAt(index);

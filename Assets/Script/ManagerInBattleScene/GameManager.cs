@@ -9,17 +9,17 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public int health1 = 100;
-    public int stamina1;
+    // public int health1 = 100;
+    // public int stamina1;
     
-    public int health2 = 100;
-    public int stamina2;
+    // public int health2 = 100;
+    // public int stamina2;
 
-    public int enemy_health1;
-    public int enemy_stam1;
+    // public int enemy_health1;
+    // public int enemy_stam1;
 
-    public int enemy_health2;
-    public int enemy_stam2;
+    // public int enemy_health2;
+    // public int enemy_stam2;
 
     public int dungeon_number;
     public int cycle_number = 0;
@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance != null)
+        if(instance == null)
         {
             instance = this;
         }
@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
     {
         Instantiate(Resources.Load("Prefab/J_Cha1"), new Vector3(-8,2,0),Quaternion.identity);
         Instantiate(Resources.Load("Prefab/J_Cha2"), new Vector3(-8,-2,0),Quaternion.identity);
-        enemy_stam1 = 0;
     }
 
     // Update is called once per frame
@@ -61,5 +60,10 @@ public class GameManager : MonoBehaviour
 
             UIcycle.text = "cycle " + cycle_number;
         }
+    }
+
+    public void StartGame()
+    {
+        Instantiate(Resources.Load("Prefab/BattleManager"), new Vector3(0,0,0),Quaternion.identity);
     }
 }
