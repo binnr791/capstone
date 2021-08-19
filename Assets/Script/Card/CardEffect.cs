@@ -2,13 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(EffectLibrary))]
+
 public class CardEffect : MonoBehaviour
 {
     public Dictionary<int, effectFunc> idToEffect;
     public delegate void effectFunc();
+
+    EffectLibrary effectLibrary;
+
     
     private void Awake()
     {
+        effectLibrary = GetComponent<EffectLibrary>();
+
         idToEffect = new Dictionary<int, effectFunc>();
 
         idToEffect[0] = BloodSucking;
@@ -46,6 +53,9 @@ public class CardEffect : MonoBehaviour
 
     public void AttackAllEnemy()
     {
-
+        // int amount = 6;
+        // Character user = BattleManager.instance.GetUserCharacter();
+        // List<Character> targets = BattleManager.instance.GetAllEnemy();
+        // effectLibrary.Attack(user, targets, amount);
     }
 }
