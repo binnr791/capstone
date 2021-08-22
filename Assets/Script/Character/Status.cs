@@ -10,10 +10,6 @@ public class Status : MonoBehaviour
     public int stamina;
     public int baseSpeed;
     public int nowSpeed;
-    
-    void Start()
-    {
-        baseSpeed = 50;
-        nowSpeed = 50;
-    }
+    public enum Faction {Player,Enemy} ;
+    public Faction faction;
 }
