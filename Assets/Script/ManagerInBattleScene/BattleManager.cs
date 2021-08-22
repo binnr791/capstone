@@ -7,14 +7,18 @@ public class BattleManager : MonoBehaviour
     public static BattleManager instance;
 
     public GameObject[] objs;
-    public GameObject drawButton;
+    public GameObject drawButton; // use inspector
     public GameObject getStamina;
     public int turnNum;
     public List<GameObject> turnList = new List<GameObject>();
     public bool playerAct;
+    public bool userInput;
+    public int targetCharacter = -1; // -1 case will cause target required error
+    public int userCharacter = -1;
 
     // 캐릭터 레퍼런스를 가져와서 수정하는 걸로 구현하기
-    public List<Character> character;
+    //public List<Character> character;
+    public List<Status> charactersInfo;
 
     public Card usingCard;
 
@@ -27,11 +31,13 @@ public class BattleManager : MonoBehaviour
         {
             instance = this;
         }
-        drawButton = GameObject.Find("DrawButton");
-        getStamina = GameObject.Find("GetStamina");
+        // drawButton = GameObject.Find("DrawButton");
+        // getStamina = GameObject.Find("GetStamina");
         drawButton.SetActive(false);
         getStamina.SetActive(false);
         playerAct = false;
+
+        BattleStart();
     }
 
     public void BattleStart()
@@ -49,8 +55,16 @@ public class BattleManager : MonoBehaviour
             turnList.Add (objs[i]);
         }
         // Create Enemy & Add Enemy Character to List
-        turnList.Add((GameObject)Instantiate(Resources.Load("Prefab/Character/J_Enemy1"), new Vector3(8,2,0),Quaternion.identity));
-        turnList.Add((GameObject)Instantiate(Resources.Load("Prefab/Character/J_Enemy2"), new Vector3(8,-2,0),Quaternion.identity));
+        // turnList.Add(Instantiate(Resources.Load<GameObject>("Prefab/Character/J_Enemy1"), new Vector3(8,2,0),Quaternion.identity));
+        // turnList.Add(Instantiate(Resources.Load<GameObject>("Prefab/Character/J_Enemy2"), new Vector3(8,-2,0),Quaternion.identity));
+
+        List<GameObject> characters = DataLoader.instance.CreateField();
+        for(int i = 0; i < characters.Count; i++)
+        {
+            turnList.Add(characters[i]);
+            charactersInfo.Add(characters[i].GetComponent<Status>());
+        }
+
         Debug.Log(turnList.Count);
         TurnAssignment();
     }
@@ -150,15 +164,15 @@ public class BattleManager : MonoBehaviour
 
     public void TryUsingCard()
     {
-        if(HasCardProperty(usingCard, CardProperty.ChooseTarget))
+        if(usingCard.HasCardProperty(CardProperty.ChooseTarget))
         {
             BattleUIManager.instance.EnableChooseResource();
-            nextPhase += UserInputStep;
+            nextPhase = UserInputStep;
             NextPhase();
         }
         else
         {
-            nextPhase += CardEffectStep;
+            nextPhase = CardEffectStep;
             NextPhase();
         }
     }
@@ -169,11 +183,11 @@ public class BattleManager : MonoBehaviour
         //BattleUIManager.instance.
         // if(userInput)
         // {
-        //     nextPhase += CardEffectStep;
+        //     nextPhase = CardEffectStep;
         // }
         // else // cancel using card
         // {
-        //     nextPhase += UseCardPhase;
+        //     nextPhase = UseCardPhase;
         // }
         // uimanager will call nextphase
     }
@@ -182,24 +196,26 @@ public class BattleManager : MonoBehaviour
     {
         //BattleUIManager.instance.
         usingCard.effectInfo.effect();
-        nextPhase += UseCardPhase;
+        Destroy(usingCard.gameObject); // must add card to grave, fix it!
+        nextPhase = UseCardPhase;
         NextPhase();
     }
 
-    private bool HasCardProperty(Card card, CardProperty property) // 카드에 property가 있는 지 확인하는 함수
-    {
-        if(card.effectInfo.properties != null)
-        {
-            for(int n = 0; n < card.effectInfo.properties.Count; n++)
-            {
-                if(card.effectInfo.properties[n] == property)
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    // move to card class
+    // private bool HasCardProperty(Card card, CardProperty property) // 카드에 property가 있는 지 확인하는 함수
+    // {
+    //     if(card.effectInfo.properties != null)
+    //     {
+    //         for(int n = 0; n < card.effectInfo.properties.Count; n++)
+    //         {
+    //             if(card.effectInfo.properties[n] == property)
+    //             {
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    //     return false;
+    // }
 
     // public void PassTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
     // {
@@ -212,9 +228,9 @@ public class BattleManager : MonoBehaviour
     //         turnNum += 1;
             
     //         // if ally
-    //         // nextPhase += GainResourcePhase;
+    //         // nextPhase = GainResourcePhase;
     //         // // if enemy
-    //         // nextPhase += EnemyActPhase;
+    //         // nextPhase = EnemyActPhase;
     //         // implement something
     //     }
     //     nextPhase();
@@ -230,17 +246,19 @@ public class BattleManager : MonoBehaviour
         nextPhase();
     }
 
-    // public void ChooseGainStamina() // not phase
-    // {
-    //     nextPhase();
-    // }
+    public void ChooseGainStamina() // not phase
+    {
+        StartCoroutine("Draw");
+        UseCardPhase();
+    }
 
-    // public void ChooseDrawCard() // not phase
-    // {
-    //     // deck.DrawCard();
-    //     // deck.DrawCard();
-    //     nextPhase();
-    // }
+    public void ChooseDrawCard() // not phase
+    {
+        StartCoroutine("GainResourcePhase");
+        CardManager.instance.deck.DrawCard();
+        CardManager.instance.deck.DrawCard();
+        UseCardPhase();
+    }
 
 
     // void creatChoice()
@@ -251,5 +269,27 @@ public class BattleManager : MonoBehaviour
     //     //     notChoice = false;
     //     // }
     // }
+
+    public Status GetTargetCharacter()
+    {
+        return charactersInfo[targetCharacter];
+    }
+
+    public Status GetUserCharacter()
+    {
+        return charactersInfo[userCharacter];
+    }
+
+    public void CancelUsingCard()
+    {
+        usingCard.GetComponent<RectTransform>().SetParent(CardManager.instance.hand.GetComponent<RectTransform>());
+        int index = usingCard.GetComponent<Cardpop>().index;
+        usingCard.GetComponent<RectTransform>().SetSiblingIndex(index);
+        usingCard.gameObject.SetActive(true);
+        userCharacter = -1;
+        targetCharacter = -1;
+        userInput = false;
+        usingCard = null;
+    }
 }
 

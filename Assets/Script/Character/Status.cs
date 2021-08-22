@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Status : MonoBehaviour
 {
     public int maxhp;
@@ -12,4 +13,5 @@ public class Status : MonoBehaviour
     public int nowSpeed;
     public enum Faction {Player,Enemy} ;
     public Faction faction;
+    public int index;
 }

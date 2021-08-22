@@ -58,6 +58,21 @@ public class Card : MonoBehaviour, IComparable<Card>
         this.cost = data.cost;
     }
 
+    public bool HasCardProperty(CardProperty property) // 카드에 property가 있는 지 확인하는 함수
+    {
+        if(effectInfo.properties != null)
+        {
+            for(int n = 0; n < effectInfo.properties.Count; n++)
+            {
+                if(effectInfo.properties[n] == property)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public int CompareTo(Card other) // used in sorting
     {
         if (this.cost.CompareTo(other.cost) != 0)

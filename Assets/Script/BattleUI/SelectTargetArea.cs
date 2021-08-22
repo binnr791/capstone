@@ -3,18 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SelectTargetArea : MonoBehaviour, IDropHandler, IPointerUpHandler
+public class SelectTargetArea : MonoBehaviour, IDropHandler, IPointerDownHandler
 {
     public int charIndex; // 외부에서 초기화하기, 몇 번째 캐릭터를 선택했는지 전달하기 위해 필요한 변수
+    public bool isEnemyArea;
 
     private void Awake()
     {
         
     }
 
-    public void OnPointerUp(PointerEventData eventData) // 대상 지정
+    private void Start()
     {
+        charIndex = GetComponent<RectTransform>().parent.GetComponent<Status>().index; // 이 라인이 에러나면 부모-자식 구조를 바꿀것.
+    }
 
+    public void OnPointerDown(PointerEventData eventData) // 대상 지정
+    {
+        if(BattleManager.instance.userInput == true)
+        {
+            Debug.Log("User Input, target Index : " + charIndex.ToString());
+            BattleManager.instance.targetCharacter = charIndex;
+            BattleManager.instance.userInput = false;
+            BattleManager.instance.CardEffectStep();
+        }
     }
 
     public void OnDrop(PointerEventData eventData) // 카드 사용
@@ -41,5 +53,32 @@ public class SelectTargetArea : MonoBehaviour, IDropHandler, IPointerUpHandler
      //       }
      //   }
         //카드 정보를 받아와서 카드 효과를 대상에게 줘야함
+        if(!isEnemyArea)
+        {
+            if(BattleManager.instance.playerAct)
+            {
+                Card droppedCard = eventData.pointerDrag.GetComponent<Card>();
+                if(droppedCard != null)
+                {
+                    BattleManager.instance.usingCard = droppedCard;
+                    BattleManager.instance.userCharacter = charIndex;
+                    if(droppedCard.HasCardProperty(CardProperty.ChooseTarget))
+                    {
+                        Debug.Log("User Input Required : Choose Single Target");
+                        BattleManager.instance.userInput = true;
+                        droppedCard.GetComponent<Cardpop>().ExplictlyEndDrag(); // prevent card scale bug when cancel using it
+                        droppedCard.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        BattleManager.instance.CardEffectStep();
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("You can't use card to enemy!");
+        }
     }
 }

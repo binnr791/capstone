@@ -25,7 +25,6 @@ public class CardEffect : MonoBehaviour
         recycleProperties.Add(CardProperty.ChooseTarget);
         recycleProperties.Add(CardProperty.Recycle);
 
-
         idToEffect[0] = new CardEffectInfo(BloodSucking, chooseTargetProperty);
         idToEffect[1] = new CardEffectInfo(Defense, null);
         idToEffect[2] = new CardEffectInfo(SingleTargetAttack, chooseTargetProperty);
@@ -46,22 +45,36 @@ public class CardEffect : MonoBehaviour
 
     public void BloodSucking()
     {
+        Debug.Log("Use Card : Blood Sucking");
+        Status targetStat = BattleManager.instance.GetTargetCharacter();
+        Status userStat = BattleManager.instance.GetUserCharacter();
+        List<Status> attackTargets = new List<Status>();
+        attackTargets.Add(targetStat);
 
+        List<Status> healTargets = new List<Status>();
+        healTargets.Add(userStat);
+
+        effectLibrary.Attack(userStat, attackTargets, 3);
+        effectLibrary.Heal(userStat, healTargets, 3);
     }
 
     public void Defense()
     {
-
+        Debug.Log("Use Card : Defense");
+        Status userStat = BattleManager.instance.GetUserCharacter();
+        List<Status> target = new List<Status>();
+        target.Add(userStat);
+        effectLibrary.Armor(userStat, target, 6);
     }
 
     public void SingleTargetAttack()
     {
-
+        Debug.Log("Use Card : SingleTargetAttack");
     }
 
     public void SingleTargetHeal()
     {
-
+        Debug.Log("Use Card : SingleTargetHeal");
     }
 
     public void AttackAllEnemy()

@@ -8,7 +8,7 @@ public class EffectLibrary : MonoBehaviour
     [SerializeField] Deck deck;
 
     //캐릭터 공격
-    public void Attack(Character user, List<Character> targets, int amount) // user는 사용 캐릭터이고, target은 대상 캐릭터다.
+    public void Attack(Status user, List<Status> targets, int amount) // user는 사용 캐릭터이고, target은 대상 캐릭터다.
     {
         // bool all을 빼고 List로 target을 줄 것임.
 
@@ -27,7 +27,7 @@ public class EffectLibrary : MonoBehaviour
     }
 
     //캐릭터 힐
-    public void Heal(Character user, List<Character> targets, int amount)
+    public void Heal(Status user, List<Status> targets, int amount)
     {
         // int health;
         // int heal;
@@ -81,14 +81,14 @@ public class EffectLibrary : MonoBehaviour
 
     }
 
-    public void Armor(Character user, List<Character> targets, int amount) //방어도 증가
+    public void Armor(Status user, List<Status> targets, int amount) //방어도 증가
     {
         //파라미터로 들어온 정보에, 방어도를 얻을 캐릭터를 넣을 것이다.
         //그 캐릭터의 방어도를 증가시킨다.
 
     }
 
-    public void Dedicate(Character user, List<Character> targets, int amount)  //헌신
+    public void Dedicate(Status user, List<Status> targets, int amount)  //헌신
     {
 
         //파라미터로 들어온 정보에, 스테미나를 얻을 캐릭터를 넣을 것이다.

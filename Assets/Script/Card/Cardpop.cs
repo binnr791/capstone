@@ -7,8 +7,8 @@ public class Cardpop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
 {
     // 마우스가 카드 위에 올라가 있거나, 드래그중일때 카드가 2배 커짐 / 카드위치 바꾸는건 아직 X 
 
-    bool IsCardpointer;
-    bool IsDragging;
+    [SerializeField] bool IsCardpointer;
+    [SerializeField] bool IsDragging;
 
     public int index;
 
@@ -40,17 +40,17 @@ public class Cardpop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     {
         if(BattleManager.instance.playerAct)
         {
-            IsDragging = false;
-            this.rTransform.SetParent(hand); // 핸드 트랜스폼과 결합
-            this.rTransform.SetSiblingIndex(index); // 드래그 떼면 원래 위치로 되돌리기
-            canvasGroup.blocksRaycasts = true; // 상호작용 on
+            ExplictlyEndDrag();
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        // 핸드 트랜스폼(레이아웃)에서 분리
-        rTransform.anchoredPosition = (Input.mousePosition); // 위치 갱신
+        if(BattleManager.instance.playerAct)
+        {
+            // 핸드 트랜스폼(레이아웃)에서 분리
+            rTransform.anchoredPosition = (Input.mousePosition); // 위치 갱신
+        }
     }
 
 
@@ -75,5 +75,13 @@ public class Cardpop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         {
             transform.localScale = Vector3.one;
         }
+    }
+
+    public void ExplictlyEndDrag()
+    {
+        IsDragging = false;
+        this.rTransform.SetParent(hand); // 핸드 트랜스폼과 결합
+        this.rTransform.SetSiblingIndex(index); // 드래그 떼면 원래 위치로 되돌리기
+        canvasGroup.blocksRaycasts = true; // 상호작용 on
     }
 }
