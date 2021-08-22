@@ -14,11 +14,32 @@ public class SelectTargetArea : MonoBehaviour, IDropHandler, IPointerUpHandler
 
     public void OnPointerUp(PointerEventData eventData) // 대상 지정
     {
-        
+
     }
 
     public void OnDrop(PointerEventData eventData) // 카드 사용
     {
-        
+
+     //   if (아군)
+     //   {
+     //       if(card id =  1,3){
+     //           대상 아군에게 카드 효과를 준다;
+     //           Destroy(eventData.pointerDrag);
+     //       }
+     //       else (){
+     //           대상에겐 사용 불가능하다는 알림을 주고 카드를 패로 돌려보냄;
+     //       }
+     //   }
+     //   if (적)
+     //   {
+     //       if(card id = 0,2,4){
+     //           대상 적에게 카드 효과를 준다;
+     //           Destroy(eventData.pointerDrag);
+     //       }
+     //       else (){
+     //           대상에겐 사용 불가능하다는 알림을 주고 카드를 패로 돌려보냄;
+     //       }
+     //   }
+        //카드 정보를 받아와서 카드 효과를 대상에게 줘야함
     }
 }
