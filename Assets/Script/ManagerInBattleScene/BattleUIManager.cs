@@ -22,4 +22,22 @@ public class BattleUIManager : MonoBehaviour
     {
         UICycle.text = "Cycle : " + cycleNum.ToString();
     }
+
+
+
+
+
+
+
+
+
+    public void EnableChooseResource()
+    {
+
+    }
+
+    public void DisableChooseResource()
+    {
+        
+    }
 }

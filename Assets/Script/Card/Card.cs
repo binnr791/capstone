@@ -18,7 +18,7 @@ public class Card : MonoBehaviour, IComparable<Card>
     [SerializeField] private string _description;
     [SerializeField] private int _cost;
 
-    public CardEffect.effectFunc effect; // 카드 효과
+    public (CardEffect.effectFunc, List<CardProperty>) effect; // 카드 효과
 
     public int id { get => _id; private set => _id = value;} // this is called when read value(get) or assign value(set)
     public new string name { get => _name; private set

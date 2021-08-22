@@ -18,6 +18,7 @@ public class BattleManager : MonoBehaviour
     // 캐릭터 레퍼런스를 가져와서 수정하는 걸로 구현하기
     public List<Character> character;
 
+    public Card usingCard;
 
     public delegate void phase();
     public phase nextPhase;
@@ -186,6 +187,59 @@ public class BattleManager : MonoBehaviour
             //Instantiate(Resources.Load("Prefab/J_Enemy1"), new Vector3(8,2,0),Quaternion.identity);
             notChoice = false;
         }
+    }
+
+    public void TryUsingCard()
+    {
+        if(HasCardProperty(usingCard, CardProperty.ChooseTarget))
+        {
+            BattleUIManager.instance.EnableChooseResource();
+            nextPhase += UserInputStep;
+            NextPhase();
+        }
+        else
+        {
+            nextPhase += CardEffectStep;
+            NextPhase();
+        }
+    }
+
+    public void UserInputStep()
+    {
+        bool userInput = true; // or false
+        //BattleUIManager.instance.
+        // if(userInput)
+        // {
+        //     nextPhase += CardEffectStep;
+        // }
+        // else // cancel using card
+        // {
+        //     nextPhase += UseCardPhase;
+        // }
+        // uimanager will call nextphase
+    }
+
+    public void CardEffectStep()
+    {
+        //BattleUIManager.instance.
+        usingCard.effect.Item1();
+        nextPhase += UseCardPhase;
+        NextPhase();
+    }
+
+    private bool HasCardProperty(Card card, CardProperty property) // 카드에 property가 있는 지 확인하는 함수
+    {
+        if(card.effect.Item2 != null)
+        {
+            for(int n = 0; n < card.effect.Item2.Count; n++)
+            {
+                if(card.effect.Item2[n] == property)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
 
