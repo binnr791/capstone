@@ -57,7 +57,7 @@ public class CardDataLoader : MonoBehaviour
 
         cardData newCardData = cardDataDict[id];
         result.Init(newCardData);
-        result.effect = GetComponent<CardEffect>().GetEffect(newCardData.id);
+        result.effectInfo = GetComponent<CardEffect>().GetEffectInfo(newCardData.id);
 
         newCard.SetActive(false);
         return result;

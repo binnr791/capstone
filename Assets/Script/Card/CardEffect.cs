@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CardEffect : MonoBehaviour
 {
-    public Dictionary<int, (effectFunc, List<CardProperty>)> idToEffect;
+    public Dictionary<int, CardEffectInfo> idToEffect;
     public delegate void effectFunc();
 
     EffectLibrary effectLibrary;
@@ -16,7 +16,7 @@ public class CardEffect : MonoBehaviour
     {
         effectLibrary = GetComponent<EffectLibrary>();
 
-        idToEffect = new Dictionary<int, (effectFunc, List<CardProperty>)>();
+        idToEffect = new Dictionary<int, CardEffectInfo>();
 
         List<CardProperty> chooseTargetProperty = new List<CardProperty>();
         chooseTargetProperty.Add(CardProperty.ChooseTarget);
@@ -26,20 +26,20 @@ public class CardEffect : MonoBehaviour
         recycleProperties.Add(CardProperty.Recycle);
 
 
-        idToEffect[0] = (BloodSucking, chooseTargetProperty);
-        idToEffect[1] = (Defense, null);
-        idToEffect[2] = (SingleTargetAttack, chooseTargetProperty);
-        idToEffect[3] = (SingleTargetHeal, chooseTargetProperty);
-        idToEffect[4] = (AttackAllEnemy, null);
-        idToEffect[5] = (Dedicatation, chooseTargetProperty);
-        idToEffect[6] = (DedicateAndHeal, chooseTargetProperty);
+        idToEffect[0] = new CardEffectInfo(BloodSucking, chooseTargetProperty);
+        idToEffect[1] = new CardEffectInfo(Defense, null);
+        idToEffect[2] = new CardEffectInfo(SingleTargetAttack, chooseTargetProperty);
+        idToEffect[3] = new CardEffectInfo(SingleTargetHeal, chooseTargetProperty);
+        idToEffect[4] = new CardEffectInfo(AttackAllEnemy, null);
+        idToEffect[5] = new CardEffectInfo(Dedicatation, chooseTargetProperty);
+        idToEffect[6] = new CardEffectInfo(DedicateAndHeal, chooseTargetProperty);
 
-        idToEffect[7] = (RecylceAttack, recycleProperties);
+        idToEffect[7] = new CardEffectInfo(RecylceAttack, recycleProperties);
 
-        idToEffect[8] = (HealAllAlly, null);
+        idToEffect[8] = new CardEffectInfo(HealAllAlly, null);
     }
 
-    public (effectFunc, List<CardProperty>) GetEffect(int id)
+    public CardEffectInfo GetEffectInfo(int id)
     {
         return idToEffect[id];
     }

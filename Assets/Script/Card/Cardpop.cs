@@ -27,18 +27,24 @@ public class Cardpop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        IsDragging = true;
-        rTransform.SetParent(grabbingCard);
-        rTransform.anchorMin = new Vector2(0.5f, 0.5f); // 앵커 preset 변경
-        rTransform.anchorMax = new Vector2(0.5f, 0.5f);
-        canvasGroup.blocksRaycasts = false; // 상호작용 off
+        if(BattleManager.instance.playerAct)
+        {
+            IsDragging = true;
+            rTransform.SetParent(grabbingCard);
+            rTransform.anchorMin = new Vector2(0.5f, 0.5f); // 앵커 preset 변경
+            rTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            canvasGroup.blocksRaycasts = false; // 상호작용 off
+        }
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        IsDragging = false;
-        this.rTransform.SetParent(hand); // 핸드 트랜스폼과 결합
-        this.rTransform.SetSiblingIndex(index); // 드래그 떼면 원래 위치로 되돌리기
-        canvasGroup.blocksRaycasts = true; // 상호작용 on
+        if(BattleManager.instance.playerAct)
+        {
+            IsDragging = false;
+            this.rTransform.SetParent(hand); // 핸드 트랜스폼과 결합
+            this.rTransform.SetSiblingIndex(index); // 드래그 떼면 원래 위치로 되돌리기
+            canvasGroup.blocksRaycasts = true; // 상호작용 on
+        }
     }
 
     public void OnDrag(PointerEventData eventData)

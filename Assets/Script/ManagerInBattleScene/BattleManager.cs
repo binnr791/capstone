@@ -181,18 +181,18 @@ public class BattleManager : MonoBehaviour
     public void CardEffectStep()
     {
         //BattleUIManager.instance.
-        usingCard.effect.Item1();
+        usingCard.effectInfo.effect();
         nextPhase += UseCardPhase;
         NextPhase();
     }
 
     private bool HasCardProperty(Card card, CardProperty property) // 카드에 property가 있는 지 확인하는 함수
     {
-        if(card.effect.Item2 != null)
+        if(card.effectInfo.properties != null)
         {
-            for(int n = 0; n < card.effect.Item2.Count; n++)
+            for(int n = 0; n < card.effectInfo.properties.Count; n++)
             {
-                if(card.effect.Item2[n] == property)
+                if(card.effectInfo.properties[n] == property)
                 {
                     return true;
                 }
