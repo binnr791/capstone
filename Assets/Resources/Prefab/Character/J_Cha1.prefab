@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6594436083063733854}
   m_Layer: 0
   m_Name: J_Cha1
-  m_TagString: J_Player
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,8 +95,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c521025bfd83a04ba384141dc65cd3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxhp: 25
   hp: 25
+  block: 0
   stamina: 5
+  baseSpeed: 50
+  nowSpeed: 0
+  faction: 0
 --- !u!114 &6594436083063733854
 MonoBehaviour:
   m_ObjectHideFlags: 0

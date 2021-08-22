@@ -36,30 +36,34 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    bool battleStart = false;
+    // bool battleStart = false;
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(Resources.Load("Prefab/J_Cha1"), new Vector3(-8,2,0),Quaternion.identity);
-        Instantiate(Resources.Load("Prefab/J_Cha2"), new Vector3(-8,-2,0),Quaternion.identity);
+        Instantiate(Resources.Load("Prefab/Character/J_Cha1"), new Vector3(-8,2,0),Quaternion.identity);
+        Instantiate(Resources.Load("Prefab/Character/J_Cha2"), new Vector3(-8,-2,0),Quaternion.identity);
     }
 
     // Update is called once per frame
-    void Update()
+    // void Update()
+    // {
+    //     if (battleStart == false&&Input.GetKeyDown(KeyCode.Space)) // 임시로 스페이스바 눌러서 전투 시작
+    //     {
+    //         battleStart = true;
+    //         Debug.Log("Space");
+    //         Instantiate(Resources.Load("Prefab/BattleManager"), new Vector3(0,0,0),Quaternion.identity);
+    //     }
+
+    //     if (Input.GetMouseButtonDown(0)) // 임시로 클릭을 사이클 엔드로 침
+    //     {
+    //         cycle_number += 1;
+
+    //         UIcycle.text = "cycle " + cycle_number;
+    //     }
+    // }
+    public void BattleStart()
     {
-        if (battleStart == false&&Input.GetKeyDown(KeyCode.Space)) // 임시로 스페이스바 눌러서 전투 시작
-        {
-            battleStart = true;
-            Debug.Log("Space");
-            Instantiate(Resources.Load("Prefab/BattleManager"), new Vector3(0,0,0),Quaternion.identity);
-        }
-
-        if (Input.GetMouseButtonDown(0)) // 임시로 클릭을 사이클 엔드로 침
-        {
-            cycle_number += 1;
-
-            UIcycle.text = "cycle " + cycle_number;
-        }
+        Instantiate(Resources.Load("Prefab/BattleManager"), new Vector3(0,0,0),Quaternion.identity);
     }
 
     public void StartGame()

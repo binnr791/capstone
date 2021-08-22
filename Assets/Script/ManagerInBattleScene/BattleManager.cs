@@ -7,13 +7,11 @@ public class BattleManager : MonoBehaviour
     public static BattleManager instance;
 
     public GameObject[] objs;
+    public GameObject drawButton;
+    public GameObject getStamina;
     public int turnNum;
     public List<GameObject> turnList = new List<GameObject>();
-    bool drawOrGetStamina;
-    bool useCard;
-    bool staminaGet = false;
-    bool cardDraw = false;
-    bool notChoice = true;
+    public bool playerAct;
 
     // 캐릭터 레퍼런스를 가져와서 수정하는 걸로 구현하기
     public List<Character> character;
@@ -28,164 +26,176 @@ public class BattleManager : MonoBehaviour
         {
             instance = this;
         }
-        
+        drawButton = GameObject.Find("DrawButton");
+        getStamina = GameObject.Find("GetStamina");
+        drawButton.SetActive(false);
+        getStamina.SetActive(false);
+        playerAct = false;
+    }
+
+    public void BattleStart()
+    {
         //turn reset
         turnNum = -1;
 
-        //Make Player Character visible
-        objs = GameObject.FindGameObjectsWithTag("J_Player");
+        //Load Player Characters
+        objs = GameObject.FindGameObjectsWithTag("Character");
         for (int i = 0; i < objs.Length; i++)
         {
+            //Make Player Character visible
             objs[i].GetComponent<Renderer>().enabled = true;
+            //Add Player Character to List
+            turnList.Add (objs[i]);
         }
-        // Create Enemy
-        Instantiate(Resources.Load("Prefab/J_Enemy1"), new Vector3(8,2,0),Quaternion.identity);
-        Instantiate(Resources.Load("Prefab/J_Enemy2"), new Vector3(8,-2,0),Quaternion.identity);
-        
-        //Player Character & Enemy Character List
-        GameObject[] allCharacters = GameObject.FindGameObjectsWithTag("J_Player");
-        foreach (GameObject character in allCharacters) {
-            turnList.Add (character);
-        }
-        allCharacters = GameObject.FindGameObjectsWithTag("J_Enemy");
-        foreach (GameObject character in allCharacters) {
-            turnList.Add (character);
-        }
+        // Create Enemy & Add Enemy Character to List
+        turnList.Add((GameObject)Instantiate(Resources.Load("Prefab/Character/J_Enemy1"), new Vector3(8,2,0),Quaternion.identity));
+        turnList.Add((GameObject)Instantiate(Resources.Load("Prefab/Character/J_Enemy2"), new Vector3(8,-2,0),Quaternion.identity));
+        Debug.Log(turnList.Count);
+        TrunAssignment();
     }
 
-    // Update is called once per frame
-    // void Update()
-    // {
-    //     if(turnNum == -1)
-    //     {
-    //         //nowspeed set Based on baseSpeed -5 to +5
-    //         foreach (GameObject character in turnList)
-    //         {
-    //             character.GetComponent<Status>().nowSpeed = character.GetComponent<Status>().baseSpeed + Random.Range(-5,6);
-    //             //Debug.Log(character.GetComponent<Status>().nowSpeed);
-    //         }
-    //         //Sorting characters Speed
-    //         if (turnList.Count > 0) {
-    //             turnList.Sort(delegate(GameObject b, GameObject a) {
-    //                 return (a.GetComponent<Status>().nowSpeed).CompareTo(b.GetComponent<Status>().nowSpeed);
-    //             });
-    //         }
-    //         /*
-    //         // Sorting check
-    //         Debug.Log("Sorting Finish");
-    //         foreach (GameObject character in turnList)
-    //         {
-    //             Debug.Log(character.GetComponent<Status>().nowSpeed);
-    //         }
-    //         */
-    //         drawOrGetStamina = true;
-    //         useCard = true;
-    //         turnNum ++;
-    //     }
-    //     else if(turnNum >= turnList.Count)
-    //     {
-    //         turnNum = -1;
-    //     }
-    //     else if(turnList[turnNum].CompareTag("J_Enemy"))
-    //     {
-    //         //Enemy Act
-    //         Debug.Log("turn"+turnNum+" Enemy Act");
-    //         turnNum++;
-    //     }
-    //     else if(turnList[turnNum].CompareTag("J_Player"))
-    //     {
-            
-    //         if (drawOrGetStamina)
-    //         {
-    //             //draw or getstamina
-    //         }
-    //         else if (useCard)
-    //         {
-
-    //         }
-    //         else // turn end
-    //         {
-    //             drawOrGetStamina = true;
-    //             useCard = true;
-    //             turnNum++;
-    //         }
-
-    //         Debug.Log("turn"+turnNum+" Player Act");
-    //     }
-    // }
-
-    public void StartTurnPhase()
+    void TrunAssignment() //Turn Mix
     {
+        foreach (GameObject character in turnList)
+        {
+            character.GetComponent<Status>().nowSpeed = character.GetComponent<Status>().baseSpeed + Random.Range(-5,6);
+            //Debug.Log(character.GetComponent<Status>().nowSpeed);
+        }
+        //Sorting characters Speed
+        if (turnList.Count > 0) {
+            turnList.Sort(delegate(GameObject b, GameObject a) {
+                return (a.GetComponent<Status>().nowSpeed).CompareTo(b.GetComponent<Status>().nowSpeed);
+            });
+        }
+        turnNum++;
+        StartTurnPhase();
+    }
 
+    void StartTurnPhase()
+    {
+        //Turn Reset
+        if(turnNum >= turnList.Count)
+        {
+            turnNum = -1;
+            TrunAssignment();
+        }
+        //Player Turn
+        else if(turnList[turnNum].GetComponent<Status>().faction == Status.Faction.Player)
+        {
+            Debug.Log("Player Action");
+            DrawTurn();
+        }//Enemy Turn
+        else if(turnList[turnNum].GetComponent<Status>().faction == Status.Faction.Enemy)
+        {
+            Debug.Log("Enemy Action");
+            StartCoroutine(EnemyActPhase());
+            StartTurnPhase();
+        }
+        else
+        {
+            Debug.Log("Error");
+        }
+    }
+    // Enemy Action
+    IEnumerator EnemyActPhase()
+    {
+        turnNum++;
+        yield return null;
     }
     
-    public void GainResourcePhase() // 자원 획득 단계
+    public void DrawTurn()
     {
-        Debug.Log("Gain Resource Phase");
-        
-        // uimanager will decide when to change to next phase
+        drawButton.SetActive(true);
+        getStamina.SetActive(true);
     }
 
-    public void UseCardPhase() // 카드 사용 단계
+    public IEnumerator Draw()
     {
+        Debug.Log("Draw Card");
+        yield return null;
+        UseCardPhase();
+    }
+
+    public IEnumerator GainResourcePhase()
+    {
+        Debug.Log("Get Stamina");
+        yield return null;
+        UseCardPhase();
+    }
+
+    public void UseCardPhase()  // 카드 사용 가능 설정
+    {
+        playerAct = true;
+        getStamina.SetActive(false);
+        drawButton.SetActive(false);
         Debug.Log("Use Card Phase");
         // uimanager will decide when to change to next phase
     }
 
-    public void PassTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
+    IEnumerator PlayTurn()  // 카드사용단계
     {
-        if(turnNum >= turnList.Count)
-        {
-            nextPhase += NextCyclePhase;
-        }
-        else
-        {
-            turnNum += 1;
+        Debug.Log("Play Action");
+        yield return null;
+    }
+
+    public IEnumerator EndTurn()
+    {
+        playerAct = false;
+        Debug.Log("Turn End");
+        turnNum++;
+        yield return null;
+        StartTurnPhase();
+    }
+
+    // public void PassTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
+    // {
+    //     if(turnNum >= turnList.Count)
+    //     {
+    //         nextPhase += NextCyclePhase;
+    //     }
+    //     else
+    //     {
+    //         turnNum += 1;
             
-            // if ally
-            nextPhase += GainResourcePhase;
-            // if enemy
-            nextPhase += EnemyActPhase;
-            // implement something
-        }
-        nextPhase();
-    }
-    
-    public void EnemyActPhase()
-    {
-        nextPhase();
-    }
+    //         // if ally
+    //         // nextPhase += GainResourcePhase;
+    //         // // if enemy
+    //         // nextPhase += EnemyActPhase;
+    //         // implement something
+    //     }
+    //     nextPhase();
+    // }
 
-    public void NextCyclePhase()
-    {
+    // public void NextCyclePhase()
+    // {
 
-    }
+    // }
 
-    public void NextPhase() // 강제로 페이즈를 넘기는 기능, 주로 UI 매니저가 호출함
-    {
-        nextPhase();
-    }
+    // public void NextPhase() // 강제로 페이즈를 넘기는 기능, 주로 UI 매니저가 호출함
+    // {
+    //     nextPhase();
+    // }
 
-    public void ChooseGainStamina() // not phase
-    {
-        nextPhase();
-    }
+    // public void ChooseGainStamina() // not phase
+    // {
+    //     nextPhase();
+    // }
 
-    public void ChooseDrawCard() // not phase
-    {
-        // deck.DrawCard();
-        // deck.DrawCard();
-        nextPhase();
-    }
+    // public void ChooseDrawCard() // not phase
+    // {
+    //     // deck.DrawCard();
+    //     // deck.DrawCard();
+    //     nextPhase();
+    // }
 
 
-    void creatChoice()
-    {
-        if(notChoice)
-        {
-            //Instantiate(Resources.Load("Prefab/J_Enemy1"), new Vector3(8,2,0),Quaternion.identity);
-            notChoice = false;
-        }
-    }
+    // void creatChoice()
+    // {
+    //     // if(notChoice)
+    //     // {
+    //     //     //Instantiate(Resources.Load("Prefab/J_Enemy1"), new Vector3(8,2,0),Quaternion.identity);
+    //     //     notChoice = false;
+    //     // }
+    // }
 }
 
