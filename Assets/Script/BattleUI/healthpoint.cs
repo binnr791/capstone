@@ -6,22 +6,26 @@ using UnityEngine.UI;
 
 public class healthpoint : MonoBehaviour
 {
-    public Slider hpBar;
+    [SerializeField] private Status status;
+    [SerializeField] private Slider HealthBar;
    // private GameManager hp; 체력 레퍼런스 가져오기
-    public Text point;
+    public Text hppoint;
+    public Text maxpoint;
     // Start is called before the first frame update
-    
+
     void Start()
     {
-        // = gameObject.GetComponent<GameManager>(); 체력 레퍼런스 가져오기
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // hpBar.value = (float) GameManager.instance.health1 / (float) 100; //체력 레퍼런스 가져오기
+        
+        HealthBar.value = ((float) status.hp / (float) status.maxhp) * 100 ; //체력 레퍼런스 가져오기
 
-        //point.text =  + " /100"; //체력 레퍼런스 가져오기
+
+        maxpoint.text = status.maxhp.ToString();
+        hppoint.text = status.hp.ToString();
     }
 }
