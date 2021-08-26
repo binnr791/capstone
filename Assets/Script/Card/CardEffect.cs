@@ -46,25 +46,23 @@ public class CardEffect : MonoBehaviour
     public void BloodSucking()
     {
         Debug.Log("Use Card : Blood Sucking");
-        Character targetStat = BattleManager.instance.GetTargetCharacter();
-        Character userStat = BattleManager.instance.GetUserCharacter();
-        List<Character> attackTargets = new List<Character>();
-        attackTargets.Add(targetStat);
+        Character targetChar = BattleManager.instance.GetTargetCharacter();
+        Character userChar = BattleManager.instance.GetUserCharacter();
 
-        List<Character> healTargets = new List<Character>();
-        healTargets.Add(userStat);
+        Character attackTarget = targetChar;
+        Character healTarget = userChar;
 
-        effectLibrary.Attack(userStat, attackTargets, 3);
-        effectLibrary.Heal(userStat, healTargets, 3);
+        effectLibrary.Attack(userChar, attackTarget, 3);
+        effectLibrary.Heal(userChar, healTarget, 3);
     }
 
     public void Defense()
     {
         Debug.Log("Use Card : Defense");
-        Character userStat = BattleManager.instance.GetUserCharacter();
-        List<Character> target = new List<Character>();
-        target.Add(userStat);
-        effectLibrary.Armor(userStat, target, 6);
+        Character userChar = BattleManager.instance.GetUserCharacter();
+        Character target = userChar;
+        
+        effectLibrary.Armor(userChar, target, 6);
     }
 
     public void SingleTargetAttack()

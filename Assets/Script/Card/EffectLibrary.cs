@@ -8,26 +8,14 @@ public class EffectLibrary : MonoBehaviour
     [SerializeField] Deck deck;
 
     //캐릭터 공격
-    public void Attack(Character user, List<Character> targets, int amount) // user는 사용 캐릭터이고, target은 대상 캐릭터다.
+    public void Attack(Character user, Character target, int amount) // user는 사용 캐릭터이고, target은 대상 캐릭터다.
     {
-        // bool all을 빼고 List로 target을 줄 것임.
-
-        // int health; 주석 풀고 알아서 개발하기
-        // int damage;
-        // bool all;
-
-        // if (all == true) 
-        // {
-        //     //모든 적군에게
-        //     health = health - damage;
-        // }
-        // else
-        //     //지정 대상에게
-        //     health = health - damage;
+        target.stat.hp -= amount;
+        // 사망 판정은 effectlibrary에서 하지 않을 겁니다.
     }
 
     //캐릭터 힐
-    public void Heal(Character user, List<Character> targets, int amount)
+    public void Heal(Character user, Character target, int amount)
     {
         // int health;
         // int heal;
@@ -65,30 +53,14 @@ public class EffectLibrary : MonoBehaviour
         deck.DrawCard(); // 이건 제가 했습니다.
     }
 
-    public void Bury() //묘지 함수 
-    {
-
-        //묘지에 가상의 카드 넣기 함수가 있다고 생각하고, 호출한다.
-        //패의 카드는 반드시 제거되어야한다.
-
-    }
-
-    public void Recycle()  //재활용
-    {
-
-        //구현 방법이 여러가지이다. 따로 함수를 만들지 않고,
-        //묘지로 가기 함수에서 분기를 만들어서 구현해도 된다.
-
-    }
-
-    public void Armor(Character user, List<Character> targets, int amount) //방어도 증가
+    public void Armor(Character user, Character target, int amount) //방어도 증가
     {
         //파라미터로 들어온 정보에, 방어도를 얻을 캐릭터를 넣을 것이다.
         //그 캐릭터의 방어도를 증가시킨다.
 
     }
 
-    public void Dedicate(Character user, List<Character> targets, int amount)  //헌신
+    public void Dedicate(Character user, Character target, int amount)  //헌신
     {
 
         //파라미터로 들어온 정보에, 스테미나를 얻을 캐릭터를 넣을 것이다.
@@ -96,17 +68,17 @@ public class EffectLibrary : MonoBehaviour
 
     }
 
-    public void Die() //죽은 캐릭 표현?
-    {
-        // int health;
-        // bool isDie;
+    // public void Die() //죽은 캐릭 표현?
+    // {
+    //     // int health;
+    //     // bool isDie;
 
-        //     if (health <= 0) 
-        //     {
-        //         isDie = true;
-        //         return true;
-        //     }
-        //     return false;
+    //     //     if (health <= 0) 
+    //     //     {
+    //     //         isDie = true;
+    //     //         return true;
+    //     //     }
+    //     //     return false;
         
-    }
+    // }
 }
