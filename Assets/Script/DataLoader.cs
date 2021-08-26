@@ -37,7 +37,7 @@ public class DataLoader : MonoBehaviour
             characterObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-400, 300 - (i * 350));
             
             AssignStatus(characterObj, characterStats[i]);
-            characterObj.GetComponent<Character>().faction = Character.Faction.Player;
+            characterObj.GetComponent<Character>().faction = Faction.Player;
             characterObj.GetComponent<Character>().index = charIndex++;
             
             result.Add(characterObj);
@@ -52,7 +52,7 @@ public class DataLoader : MonoBehaviour
             characterObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(400, 300 - (i * 350));
             
             AssignStatus(characterObj, enemyStats[i]);
-            characterObj.GetComponent<Character>().faction = Character.Faction.Enemy;
+            characterObj.GetComponent<Character>().faction = Faction.Enemy;
             characterObj.GetComponent<Character>().index = charIndex++;
             
             result.Add(characterObj);
@@ -63,10 +63,10 @@ public class DataLoader : MonoBehaviour
 
     private void AssignStatus(GameObject character, StatInspector newStat)
     {
-        Character stat = character.GetComponent<Character>();
-        stat.maxhp = newStat.maxhp;
-        stat.hp = newStat.hp;
-        stat.baseSpeed = newStat.baseSpeed;
+        Character charToAssign = character.GetComponent<Character>();
+        charToAssign.stat.maxhp = newStat.maxhp;
+        charToAssign.stat.hp = newStat.hp;
+        charToAssign.stat.baseSpeed = newStat.baseSpeed;
     }
 }
 

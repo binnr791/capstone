@@ -6,16 +6,9 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Character : MonoBehaviour
 {
-    public int maxhp;
-    public int hp;
-    public int block; // 방어도
-    public int stamina;
-    public int baseSpeed;
-    public int nowSpeed;
-    public enum Faction { Player, Enemy };
-    public Faction faction;
     public int index;  // 여기까지 Status스크립트에 있던 변수
 
+    [Header("UI")]
     public Slider HealthBar; //여기부터 health point 스크립트의 내용
 
     public Text hppoint;
@@ -23,15 +16,23 @@ public class Character : MonoBehaviour
     public Text staminapoint;
     public Text blockpoint;
 
+    public Status stat; // 직렬화를 하려고 stat 클래스를 만듦.
+    public Faction faction;
+
 
     void Update()
     {
 
-        HealthBar.value = ((float) hp / (float) maxhp) * 100;
+        HealthBar.value = ((float) stat.hp / (float) stat.maxhp) * 100;
 
-        maxpoint.text = maxhp.ToString();
-        hppoint.text = hp.ToString();
-        staminapoint.text = stamina.ToString();
-        blockpoint.text = block.ToString();
+        maxpoint.text = stat.maxhp.ToString();
+        hppoint.text = stat.hp.ToString();
+        staminapoint.text = stat.stamina.ToString();
+        blockpoint.text = stat.block.ToString();
     }
 }
+
+public enum Faction
+{
+    Player, Enemy
+};

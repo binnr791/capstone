@@ -10,6 +10,8 @@ public class BattleUIManager : MonoBehaviour
 
     [SerializeField] Text UICycle; // 인스펙터 활용
 
+    [SerializeField] GameObject cancelUsingCardBtn; // button = btn
+
     private void Awake()
     {
         if(instance == null)
@@ -23,11 +25,14 @@ public class BattleUIManager : MonoBehaviour
         UICycle.text = "Cycle : " + cycleNum.ToString();
     }
 
-
-
-
-
-
+    public void EnableCancelUsingCardBtn()
+    {
+        cancelUsingCardBtn.SetActive(true);
+    }
+    public void DisableCancelUsingCardBtn()
+    {
+        cancelUsingCardBtn.SetActive(false);
+    }
 
 
 

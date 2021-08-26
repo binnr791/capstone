@@ -15,7 +15,7 @@ public class SelectTargetArea : MonoBehaviour, IDropHandler, IPointerDownHandler
 
     private void Start()
     {
-        charIndex = GetComponent<RectTransform>().parent.GetComponent<Status>().index; // 이 라인이 에러나면 부모-자식 구조를 바꿀것.
+        charIndex = GetComponent<RectTransform>().parent.GetComponent<Character>().index; // 이 라인이 에러나면 부모-자식 구조를 바꿀것.
     }
 
     public void OnPointerDown(PointerEventData eventData) // 대상 지정
@@ -25,6 +25,7 @@ public class SelectTargetArea : MonoBehaviour, IDropHandler, IPointerDownHandler
             Debug.Log("User Input, target Index : " + charIndex.ToString());
             BattleManager.instance.targetCharacter = charIndex;
             BattleManager.instance.userInput = false;
+            BattleUIManager.instance.DisableCancelUsingCardBtn();
             BattleManager.instance.CardEffectStep();
         }
     }
@@ -66,6 +67,7 @@ public class SelectTargetArea : MonoBehaviour, IDropHandler, IPointerDownHandler
                     {
                         Debug.Log("User Input Required : Choose Single Target");
                         BattleManager.instance.userInput = true;
+                        BattleUIManager.instance.EnableCancelUsingCardBtn();
                         droppedCard.GetComponent<Cardpop>().ExplictlyEndDrag(); // prevent card scale bug when cancel using it
                         droppedCard.gameObject.SetActive(false);
                     }

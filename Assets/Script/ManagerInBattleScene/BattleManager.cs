@@ -17,8 +17,7 @@ public class BattleManager : MonoBehaviour
     public int userCharacter = -1;
 
     // 캐릭터 레퍼런스를 가져와서 수정하는 걸로 구현하기
-    //public List<Character> character;
-    public List<Status> charactersInfo;
+    public List<Character> charactersInfo;
 
     public Card usingCard;
 
@@ -31,8 +30,6 @@ public class BattleManager : MonoBehaviour
         {
             instance = this;
         }
-        // drawButton = GameObject.Find("DrawButton");
-        // getStamina = GameObject.Find("GetStamina");
         drawButton.SetActive(false);
         getStamina.SetActive(false);
         playerAct = false;
@@ -54,15 +51,12 @@ public class BattleManager : MonoBehaviour
             //Add Player Character to List
             turnList.Add (objs[i]);
         }
-        // Create Enemy & Add Enemy Character to List
-        // turnList.Add(Instantiate(Resources.Load<GameObject>("Prefab/Character/J_Enemy1"), new Vector3(8,2,0),Quaternion.identity));
-        // turnList.Add(Instantiate(Resources.Load<GameObject>("Prefab/Character/J_Enemy2"), new Vector3(8,-2,0),Quaternion.identity));
 
         List<GameObject> characters = DataLoader.instance.CreateField();
         for(int i = 0; i < characters.Count; i++)
         {
             turnList.Add(characters[i]);
-            charactersInfo.Add(characters[i].GetComponent<Status>());
+            charactersInfo.Add(characters[i].GetComponent<Character>());
         }
 
         Debug.Log(turnList.Count);
@@ -73,13 +67,13 @@ public class BattleManager : MonoBehaviour
     {
         foreach (GameObject character in turnList)
         {
-            character.GetComponent<Status>().nowSpeed = character.GetComponent<Status>().baseSpeed + Random.Range(-5,6);
-            //Debug.Log(character.GetComponent<Status>().nowSpeed);
+            character.GetComponent<Character>().stat.nowSpeed = character.GetComponent<Character>().stat.baseSpeed + Random.Range(-5,6);
+            //Debug.Log(character.GetComponent<Character>().stat.nowSpeed);
         }
         //Sorting characters Speed
         if (turnList.Count > 0) {
             turnList.Sort(delegate(GameObject b, GameObject a) {
-                return (a.GetComponent<Status>().nowSpeed).CompareTo(b.GetComponent<Status>().nowSpeed);
+                return (a.GetComponent<Character>().stat.nowSpeed).CompareTo(b.GetComponent<Character>().stat.nowSpeed);
             });
         }
         turnNum++;
@@ -95,12 +89,12 @@ public class BattleManager : MonoBehaviour
             TurnAssignment();
         }
         //Player Turn
-        else if(turnList[turnNum].GetComponent<Status>().faction == Status.Faction.Player)
+        else if(turnList[turnNum].GetComponent<Character>().faction == Faction.Player)
         {
             Debug.Log("Player Action");
             DrawTurn();
         }//Enemy Turn
-        else if(turnList[turnNum].GetComponent<Status>().faction == Status.Faction.Enemy)
+        else if(turnList[turnNum].GetComponent<Character>().faction == Faction.Enemy)
         {
             Debug.Log("Enemy Action");
             StartCoroutine(EnemyActPhase());
@@ -201,22 +195,6 @@ public class BattleManager : MonoBehaviour
         NextPhase();
     }
 
-    // move to card class
-    // private bool HasCardProperty(Card card, CardProperty property) // 카드에 property가 있는 지 확인하는 함수
-    // {
-    //     if(card.effectInfo.properties != null)
-    //     {
-    //         for(int n = 0; n < card.effectInfo.properties.Count; n++)
-    //         {
-    //             if(card.effectInfo.properties[n] == property)
-    //             {
-    //                 return true;
-    //             }
-    //         }
-    //     }
-    //     return false;
-    // }
-
     // public void PassTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
     // {
     //     if(turnNum >= turnList.Count)
@@ -248,13 +226,13 @@ public class BattleManager : MonoBehaviour
 
     public void ChooseGainStamina() // not phase
     {
-        StartCoroutine("Draw");
+        turnList[turnNum].GetComponent<Character>().stat.stamina += 3;
         UseCardPhase();
     }
 
     public void ChooseDrawCard() // not phase
     {
-        StartCoroutine("GainResourcePhase");
+        //StartCoroutine("GainResourcePhase");
         CardManager.instance.deck.DrawCard();
         CardManager.instance.deck.DrawCard();
         UseCardPhase();
@@ -270,12 +248,12 @@ public class BattleManager : MonoBehaviour
     //     // }
     // }
 
-    public Status GetTargetCharacter()
+    public Character GetTargetCharacter()
     {
         return charactersInfo[targetCharacter];
     }
 
-    public Status GetUserCharacter()
+    public Character GetUserCharacter()
     {
         return charactersInfo[userCharacter];
     }

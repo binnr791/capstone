@@ -38,11 +38,6 @@ public class GameManager : MonoBehaviour
 
     // bool battleStart = false;
     // Start is called before the first frame update
-    void Start()
-    {
-        Instantiate(Resources.Load("Prefab/Character/J_Cha1"), new Vector3(-8,2,0),Quaternion.identity);
-        Instantiate(Resources.Load("Prefab/Character/J_Cha2"), new Vector3(-8,-2,0),Quaternion.identity);
-    }
 
     // Update is called once per frame
     // void Update()
@@ -61,13 +56,5 @@ public class GameManager : MonoBehaviour
     //         UIcycle.text = "cycle " + cycle_number;
     //     }
     // }
-    public void BattleStart()
-    {
-        Instantiate(Resources.Load("Prefab/BattleManager"), new Vector3(0,0,0),Quaternion.identity);
-    }
 
-    public void StartGame()
-    {
-        Instantiate(Resources.Load("Prefab/BattleManager"), new Vector3(0,0,0),Quaternion.identity);
-    }
 }
