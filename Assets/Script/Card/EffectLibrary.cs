@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class EffectLibrary : MonoBehaviour
 {
-    [SerializeField] Deck deck;
 
     //캐릭터 공격
     public void Attack(Character user, Character target, int amount) // user는 사용 캐릭터이고, target은 대상 캐릭터다.
@@ -49,8 +48,7 @@ public class EffectLibrary : MonoBehaviour
     {
         //덱(리스트)은 오름차순 정렬이 되어있으므로, 랜덤 함수를 호출한다
         //뽑은 카드는 덱에서 제거한다.
-        //덱에서 더 이상 드로우 할 수 없으면 묘지에서 가져오기
-        deck.DrawCard(); // 이건 제가 했습니다.
+        CardManager.instance.DrawCard();
     }
 
     public void Armor(Character user, Character target, int amount) //방어도 증가

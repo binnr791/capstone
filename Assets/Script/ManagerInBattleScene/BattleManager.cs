@@ -59,7 +59,7 @@ public class BattleManager : MonoBehaviour
             charactersInfo.Add(characters[i].GetComponent<Character>());
         }
 
-        Debug.Log(turnList.Count);
+        Debug.Log("Current Num of Characters : " + turnList.Count);
         TurnAssignment();
     }
 
@@ -233,8 +233,8 @@ public class BattleManager : MonoBehaviour
     public void ChooseDrawCard() // not phase
     {
         //StartCoroutine("GainResourcePhase");
-        CardManager.instance.deck.DrawCard();
-        CardManager.instance.deck.DrawCard();
+        CardManager.instance.DrawCard();
+        CardManager.instance.DrawCard();
         UseCardPhase();
     }
 
@@ -260,7 +260,7 @@ public class BattleManager : MonoBehaviour
 
     public void CancelUsingCard()
     {
-        usingCard.GetComponent<RectTransform>().SetParent(CardManager.instance.hand.GetComponent<RectTransform>());
+        usingCard.GetComponent<RectTransform>().SetParent(CardManager.instance.HandTransform);
         int index = usingCard.GetComponent<Cardpop>().index;
         usingCard.GetComponent<RectTransform>().SetSiblingIndex(index);
         usingCard.gameObject.SetActive(true);
