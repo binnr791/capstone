@@ -11,37 +11,26 @@ public class EffectLibrary : MonoBehaviour
     {
         target.stat.hp -= amount;
         // 사망 판정은 effectlibrary에서 하지 않을 겁니다.
+        
+
     }
 
     //캐릭터 힐
     public void Heal(Character user, Character target, int amount)
     {
-        // int health;
-        // int heal;
-        // bool all;
-        // int tmp;
+        
+        if (target.stat.hp <= 0) // 대상이 체력이 0이면 체력 회복 불가
+        {
+            target.stat.hp = 0;
+        }
 
-        // if (all == true) //모든 아군에게
-        // {
-        //     health = health + heal; 
-        //     if (health <= 0)
-        //     {
-        //         health = 0;
-        //     }
+        target.stat.hp += amount;
 
-        // }
-        // else  //지정 대상에게
-        // {
-        //     health = health + heal;
-        //     if (health <= 0)
-        //     {
-        //         health = 0; 
-        //     }
-        // }
+        if (target.stat.hp > target.stat.maxhp) //최대 hp넘게 힐 불가
+        {
+            target.stat.hp = target.stat.maxhp;
+        }
 
-        //캐릭이 죽었으면 힐이 되지 않게하기..
-
-        //최대체력 이상 힐되지 않게 하기.
     }
 
     public void DrawACard()  //카드 드로우
@@ -56,6 +45,9 @@ public class EffectLibrary : MonoBehaviour
         //파라미터로 들어온 정보에, 방어도를 얻을 캐릭터를 넣을 것이다.
         //그 캐릭터의 방어도를 증가시킨다.
 
+        target.stat.block += amount;
+
+
     }
 
     public void Dedicate(Character user, Character target, int amount)  //헌신
@@ -64,19 +56,9 @@ public class EffectLibrary : MonoBehaviour
         //파라미터로 들어온 정보에, 스테미나를 얻을 캐릭터를 넣을 것이다.
         //그 캐릭터의 스테미나를 증가시킨다.스테미나는 최댓값이 없다.
 
+        target.stat.stamina += amount;
+
+
     }
 
-    // public void Die() //죽은 캐릭 표현?
-    // {
-    //     // int health;
-    //     // bool isDie;
-
-    //     //     if (health <= 0) 
-    //     //     {
-    //     //         isDie = true;
-    //     //         return true;
-    //     //     }
-    //     //     return false;
-        
-    // }
 }
