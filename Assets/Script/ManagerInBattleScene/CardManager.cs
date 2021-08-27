@@ -159,7 +159,8 @@ public class CardManager : MonoBehaviour
     public void GenerateDeck() // use for deck building
     {
         // int[] cardIDList = {1, 1, 1, 1, 1, 1}; // this will be changed to deck cards.
-        int[] cardIDList = {0, 0, 0, 1, 1, 1, 2, 3, 4}; // this will be changed to deck cards.
+        //int[] cardIDList = {0, 0, 0, 1, 1, 1, 2, 3, 4}; // this will be changed to deck cards.
+        int[] cardIDList = {2, 2, 2, 3, 3, 3};
         for(int i = 0; i < cardIDList.Length; i++)
         {
             Card newCard = CardDataLoader.instance.GetCard(cardIDList[i]);

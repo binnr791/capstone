@@ -68,11 +68,23 @@ public class CardEffect : MonoBehaviour
     public void SingleTargetAttack()
     {
         Debug.Log("Use Card : SingleTargetAttack");
+        Character user = BattleManager.instance.GetUserCharacter();
+        Character targetChar = BattleManager.instance.GetTargetCharacter();
+
+
+        effectLibrary.Attack(user, targetChar, 3);
+
     }
 
     public void SingleTargetHeal()
     {
         Debug.Log("Use Card : SingleTargetHeal");
+        Character user = BattleManager.instance.GetUserCharacter();
+        Character targetChar = BattleManager.instance.GetTargetCharacter();
+
+
+        effectLibrary.Heal(user, targetChar, 3);
+
     }
 
     public void AttackAllEnemy()
