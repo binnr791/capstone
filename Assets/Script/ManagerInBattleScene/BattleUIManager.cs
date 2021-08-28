@@ -12,7 +12,7 @@ public class BattleUIManager : MonoBehaviour
     [SerializeField] GameObject cancelUsingCardBtn; // button = btn
 
     public GameObject deckbutton;
-    public GameObject d_backbutton;
+    public GameObject showDeckPanel;
 
     [Header("Notice")] // 알림창
     public GameObject noticebox;
@@ -26,7 +26,7 @@ public class BattleUIManager : MonoBehaviour
 
     private void Awake()
     {
-        d_backbutton.SetActive(false);
+        showDeckPanel.SetActive(false);
         noticebox.SetActive(false);
         if (instance == null)
         {
@@ -66,12 +66,12 @@ public class BattleUIManager : MonoBehaviour
     public void showdeck()
     {
         deckbutton.SetActive(false);
-        d_backbutton.SetActive(true);
+        showDeckPanel.SetActive(true);
     }
     public void backtofield()
     {
         deckbutton.SetActive(true);
-        d_backbutton.SetActive(false);
+        showDeckPanel.SetActive(false);
     }
 
     public void EnableChooseResource()
