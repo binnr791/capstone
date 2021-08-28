@@ -22,6 +22,7 @@ public class DataLoader : MonoBehaviour
     public List<GameObject> CreateField()
     {
         GameObject characterPrefab = Resources.Load<GameObject>("Prefab/Character/Ally_B");
+        GameObject enemyPrefab = Resources.Load<GameObject>("Prefab/Character/enemy");
         List<GameObject> result = new List<GameObject>();
 
         // characterStats = new List<StatInspector>();
@@ -47,7 +48,7 @@ public class DataLoader : MonoBehaviour
 
         for(int i = 0; i < enemyStats.Count; i++)
         {
-            GameObject characterObj = Instantiate(characterPrefab);
+            GameObject characterObj = Instantiate(enemyPrefab);
             characterObj.GetComponent<RectTransform>().SetParent(field);
             characterObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(400, 300 - (i * 350));
             

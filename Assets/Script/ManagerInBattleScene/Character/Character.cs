@@ -20,6 +20,7 @@ public class Character : MonoBehaviour
     public Faction faction;
 
 
+
     void Update()
     {
 

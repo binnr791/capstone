@@ -81,6 +81,7 @@ public class BattleManager : MonoBehaviour
         {
             Debug.Log("Player Action");
             DrawTurn();
+
         }//Enemy Turn
         else if(turnList[turnNum].GetComponent<Character>().faction == Faction.Enemy)
         {
