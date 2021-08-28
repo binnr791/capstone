@@ -5,13 +5,17 @@ using UnityEngine;
 
 public class EffectLibrary : MonoBehaviour
 {
-
+    // null check 반드시 하기
     //캐릭터 공격
     public void Attack(Character user, Character target, int amount) // user는 사용 캐릭터이고, target은 대상 캐릭터다.
     {
         target.stat.hp -= amount;
         // 사망 판정은 effectlibrary에서 하지 않을 겁니다.
-        
+
+        if(target.stat.hp <= 0)
+        {
+
+        }
 
     }
 

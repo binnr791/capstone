@@ -41,17 +41,6 @@ public class BattleManager : MonoBehaviour
     {
         //turn reset
         turnNum = -1;
-
-        //Load Player Characters
-        objs = GameObject.FindGameObjectsWithTag("Character");
-        for (int i = 0; i < objs.Length; i++)
-        {
-            //Make Player Character visible
-            objs[i].GetComponent<Renderer>().enabled = true;
-            //Add Player Character to List
-            turnList.Add (objs[i]);
-        }
-
         List<GameObject> characters = DataLoader.instance.CreateField();
         for(int i = 0; i < characters.Count; i++)
         {
@@ -68,7 +57,6 @@ public class BattleManager : MonoBehaviour
         foreach (GameObject character in turnList)
         {
             character.GetComponent<Character>().stat.nowSpeed = character.GetComponent<Character>().stat.baseSpeed + Random.Range(-5,6);
-            //Debug.Log(character.GetComponent<Character>().stat.nowSpeed);
         }
         //Sorting characters Speed
         if (turnList.Count > 0) {
@@ -98,19 +86,13 @@ public class BattleManager : MonoBehaviour
         else if(turnList[turnNum].GetComponent<Character>().faction == Faction.Enemy)
         {
             Debug.Log("Enemy Action");
-            StartCoroutine(EnemyActPhase());
+            turnNum++;
             StartTurnPhase();
         }
         else
         {
             Debug.Log("Error");
         }
-    }
-    // Enemy Action
-    IEnumerator EnemyActPhase()
-    {
-        turnNum++;
-        yield return null;
     }
     
     public void DrawTurn()
@@ -119,19 +101,6 @@ public class BattleManager : MonoBehaviour
         getStamina.SetActive(true);
     }
 
-    public IEnumerator Draw()
-    {
-        Debug.Log("Draw Card");
-        yield return null;
-        UseCardPhase();
-    }
-
-    public IEnumerator GainResourcePhase()
-    {
-        Debug.Log("Get Stamina");
-        yield return null;
-        UseCardPhase();
-    }
 
     public void UseCardPhase()  // 카드 사용 가능 설정
     {
@@ -142,59 +111,198 @@ public class BattleManager : MonoBehaviour
         // uimanager will decide when to change to next phase
     }
 
-    IEnumerator PlayTurn()  // 카드사용단계
+    public void TurnEnd()
     {
-        Debug.Log("Play Action");
-        yield return null;
-    }
-
-    public IEnumerator EndTurn()
-    {
-        playerAct = false;
-        Debug.Log("Turn End");
-        turnNum++;
-        yield return null;
-        StartTurnPhase();
-    }
-
-    public void TryUsingCard()
-    {
-        if(usingCard.HasCardProperty(CardProperty.ChooseTarget))
+        if(BattleManager.instance.playerAct)
         {
-            BattleUIManager.instance.EnableChooseResource();
-            nextPhase = UserInputStep;
-            NextPhase();
+            playerAct = false;
+            Debug.Log("Turn End");
+            turnNum++;
+            StartTurnPhase();
         }
         else
         {
-            nextPhase = CardEffectStep;
-            NextPhase();
+            Debug.Log("Not Player Turn");
         }
     }
-
-    public void UserInputStep()
+    
+    public void ChooseGainStamina() // not phase
     {
-        bool userInput = true; // or false
-        //BattleUIManager.instance.
-        // if(userInput)
-        // {
-        //     nextPhase = CardEffectStep;
-        // }
-        // else // cancel using card
-        // {
-        //     nextPhase = UseCardPhase;
-        // }
-        // uimanager will call nextphase
+        turnList[turnNum].GetComponent<Character>().stat.stamina += 3;
+        UseCardPhase();
+    }
+
+    public void ChooseDrawCard() // not phase
+    {
+        CardManager.instance.DrawCard();
+        CardManager.instance.DrawCard();
+        UseCardPhase();
+    }
+
+    public void CheckStaminaEnough()
+    {
+        if (turnList[turnNum].GetComponent<Character>().stat.stamina >= usingCard.cost)
+        {
+            ///CardEffectStep();
+        }
+        else
+        {
+            Debug.Log("Not Enough Stamina");
+            CancelUsingCard();
+        }
     }
 
     public void CardEffectStep()
     {
-        //BattleUIManager.instance.
         usingCard.effectInfo.effect();
         Destroy(usingCard.gameObject); // must add card to grave, fix it!
+
         nextPhase = UseCardPhase;
+        CheckGameState(); // if false, battle will be interrupted.
         NextPhase();
     }
+
+    public void CheckGameState() // 게임이 종료될지 체크함
+    {
+        CheckCharDeath();
+        if(IsGameLose())
+        {
+            nextPhase = LoseGame; // this phase will interrupt flow of game loop.
+        }
+        else if(IsGameWin())
+        {
+            nextPhase = WinGame; // this phase will interrupt flow of game loop.
+        }
+        else
+        {
+            // do nothing
+        }
+    }
+
+    public bool CheckCharDeath()
+    {
+        bool isDead = false;
+        for(int i = 0; i < turnList.Count; i++)
+        {
+            if(turnList[i].GetComponent<Character>().stat.hp <= 0) // 죽음 판정 실행
+            {
+                isDead = true;
+                Character deadChar = charactersInfo[i].GetComponent<Character>(); // not use
+                
+                charactersInfo.RemoveAt(deadChar.index);
+
+                if(i == turnNum) // 턴을 가진 캐릭터가 죽을 때의 처리
+                {
+                    turnNum--;
+                    nextPhase = SkipTurnPhase;
+                }
+
+                charactersInfo[i].gameObject.SetActive(false);
+                turnList.RemoveAt(i);
+                // 대상 지정 영역 갱신 필요
+            }
+        }
+        return isDead;
+    }
+
+    public bool IsGameWin()
+    {
+        for(int i = 0; i < turnList.Count; i++)
+        {
+            if(charactersInfo[i].GetComponent<Character>().faction == Faction.Enemy)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public bool IsGameLose() // 동시에 모두 다 죽으면 패배로 처리
+    {
+        for(int i = 0; i < turnList.Count; i++)
+        {
+            if(turnList[i].GetComponent<Character>().faction == Faction.Player)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void WinGame()
+    {
+        Debug.Log("You Win");
+    }
+
+    private void LoseGame()
+    {
+        Debug.Log("You Lose");
+    }
+
+    public void PassTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
+    {
+        turnNum += 1;
+        if(turnNum >= turnList.Count)
+        {
+            nextPhase = EndCyclePhase;
+        }
+        else
+        {
+            nextPhase = StartTurnPhase;
+        }
+        nextPhase();
+    }
+
+    public void SkipTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
+    {
+        if(turnNum >= turnList.Count)
+        {
+            nextPhase = EndCyclePhase;
+        }
+        else
+        {
+            nextPhase = StartTurnPhase;
+        }
+        nextPhase();
+    }
+
+    public void EndCyclePhase()
+    {
+
+    }
+
+    public void StartCyclePhase()
+    {
+
+    }
+
+    public void NextPhase() // 강제로 페이즈를 넘기는 기능, 주로 UI 매니저가 호출함
+    {
+        nextPhase();
+    }
+
+    public Character GetTargetCharacter()
+    {
+        return charactersInfo[targetCharacter];
+    }
+
+    public Character GetUserCharacter()
+    {
+        return charactersInfo[userCharacter];
+    }
+
+    public void CancelUsingCard()
+    {
+        usingCard.GetComponent<RectTransform>().SetParent(CardManager.instance.HandTransform);
+        int index = usingCard.GetComponent<Cardpop>().index;
+        usingCard.GetComponent<RectTransform>().SetSiblingIndex(index);
+        usingCard.gameObject.SetActive(true);
+        userCharacter = -1;
+        targetCharacter = -1;
+        userInput = false;
+        usingCard = null;
+    }
+}
 
     // public void PassTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
     // {
@@ -220,55 +328,32 @@ public class BattleManager : MonoBehaviour
 
     // }
 
-    public void NextPhase() // 강제로 페이즈를 넘기는 기능, 주로 UI 매니저가 호출함
-    {
-        nextPhase();
-    }
-
-    public void ChooseGainStamina() // not phase
-    {
-        turnList[turnNum].GetComponent<Character>().stat.stamina += 3;
-        UseCardPhase();
-    }
-
-    public void ChooseDrawCard() // not phase
-    {
-        //StartCoroutine("GainResourcePhase");
-        CardManager.instance.DrawCard();
-        CardManager.instance.DrawCard();
-        UseCardPhase();
-    }
-
-
-    // void creatChoice()
+    // public void TryUsingCard()
     // {
-    //     // if(notChoice)
-    //     // {
-    //     //     //Instantiate(Resources.Load("Prefab/J_Enemy1"), new Vector3(8,2,0),Quaternion.identity);
-    //     //     notChoice = false;
-    //     // }
+    //     if(usingCard.HasCardProperty(CardProperty.ChooseTarget))
+    //     {
+    //         BattleUIManager.instance.EnableChooseResource();
+    //         nextPhase = UserInputStep;
+    //         NextPhase();
+    //     }
+    //     else
+    //     {
+    //         nextPhase = CardEffectStep;
+    //         NextPhase();
+    //     }
     // }
 
-    public Character GetTargetCharacter()
-    {
-        return charactersInfo[targetCharacter];
-    }
-
-    public Character GetUserCharacter()
-    {
-        return charactersInfo[userCharacter];
-    }
-
-    public void CancelUsingCard()
-    {
-        usingCard.GetComponent<RectTransform>().SetParent(CardManager.instance.HandTransform);
-        int index = usingCard.GetComponent<Cardpop>().index;
-        usingCard.GetComponent<RectTransform>().SetSiblingIndex(index);
-        usingCard.gameObject.SetActive(true);
-        userCharacter = -1;
-        targetCharacter = -1;
-        userInput = false;
-        usingCard = null;
-    }
-}
-
+    // public void UserInputStep()
+    // {
+    //     bool userInput = true; // or false
+    //     //BattleUIManager.instance.
+    //     // if(userInput)
+    //     // {
+    //     //     nextPhase = CardEffectStep;
+    //     // }
+    //     // else // cancel using card
+    //     // {
+    //     //     nextPhase = UseCardPhase;
+    //     // }
+    //     // uimanager will call nextphase
+    // }
