@@ -11,7 +11,7 @@ public class CardEffect : MonoBehaviour
 
     EffectLibrary effectLibrary;
 
-    
+
     private void Awake()
     {
         effectLibrary = GetComponent<EffectLibrary>();
@@ -61,29 +61,31 @@ public class CardEffect : MonoBehaviour
         Debug.Log("Use Card : Defense");
         Character userChar = BattleManager.instance.GetUserCharacter();
         Character target = userChar;
-        
+
         effectLibrary.Armor(userChar, target, 6);
     }
 
     public void SingleTargetAttack()
     {
         Debug.Log("Use Card : SingleTargetAttack");
-        Character user = BattleManager.instance.GetUserCharacter();
-        Character targetChar = BattleManager.instance.GetTargetCharacter();
+        Character user = BattleManager.instance.GetUserCharcter();// 사용하는 캐릭
+        Character targetChar = BattleManager.instance.GetTargetCharacter(); //대상지정 캐릭
 
+        Character attackTarget = targetChar;
 
-        effectLibrary.Attack(user, targetChar, 3);
+        effectLibrary.Attack(user, attackTarget, 6);
 
     }
 
     public void SingleTargetHeal()
     {
         Debug.Log("Use Card : SingleTargetHeal");
-        Character user = BattleManager.instance.GetUserCharacter();
-        Character targetChar = BattleManager.instance.GetTargetCharacter();
+        Character userChar = BattleManager.instance.GetUserCharcter();//사용하는 캐릭
+        Character target = BattleManager.instance.GetTargetCharacter();//대상지정 캐릭
 
+        Character healTarget = userChar;
 
-        effectLibrary.Heal(user, targetChar, 3);
+        effectLibrary.Heal(userChar, healTarget, 6);
 
     }
 

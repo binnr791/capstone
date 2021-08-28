@@ -19,7 +19,7 @@ public class EffectLibrary : MonoBehaviour
     //캐릭터 힐
     public void Heal(Character user, Character target, int amount) 
     {
-        target.stat.hp = tmp;
+        target.stat.maxhp = maxhp;
 
 
         if (target.stat.hp <= 0) // 대상이 체력이 0이면 체력 회복 불가
@@ -29,9 +29,9 @@ public class EffectLibrary : MonoBehaviour
 
         target.stat.hp += amount;
 
-        if (target.stat.hp >= tmp) //최대 hp넘게 힐 불가
+        if (target.stat.hp > maxhp) //최대 hp넘게 힐 불가
         {
-            target.stat.hp = tmp;
+            target.stat.hp = maxhp;
         }
 
 
@@ -46,7 +46,7 @@ public class EffectLibrary : MonoBehaviour
         //파라미터로 들어온 정보에, 방어도를 얻을 캐릭터를 넣을 것이다.
         //그 캐릭터의 방어도를 증가시킨다.
 
-        target.stat.armor += amount;
+        target.stat.block += amount;
 
     }
 
@@ -56,7 +56,7 @@ public class EffectLibrary : MonoBehaviour
         //파라미터로 들어온 정보에, 스테미나를 얻을 캐릭터를 넣을 것이다.
         //그 캐릭터의 스테미나를 증가시킨다.스테미나는 최댓값이 없다.
 
-        target.stat.stemina += amout;
+        target.stat.stamina += amout;
 
     }
 
