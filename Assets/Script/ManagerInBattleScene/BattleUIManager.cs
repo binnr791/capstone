@@ -7,12 +7,14 @@ using UnityEngine.UI;
 public class BattleUIManager : MonoBehaviour
 {
     public static BattleUIManager instance;
+
+    [SerializeField] Text UICycle; // 인스펙터 활용
+    [SerializeField] GameObject cancelUsingCardBtn; // button = btn
+
     public GameObject deckbutton;
     public GameObject d_backbutton;
-    [SerializeField] Text UICycle; // 인스펙터 활용
 
-    [SerializeField] GameObject cancelUsingCardBtn; // button = btn
-    [Header("Notice")]
+    [Header("Notice")] // 알림창
     public GameObject noticebox;
     public Text noticetext;
 
