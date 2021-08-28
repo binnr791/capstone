@@ -153,11 +153,126 @@ public class BattleManager : MonoBehaviour
 
     public void CardEffectStep()
     {
-        //BattleUIManager.instance.
         usingCard.effectInfo.effect();
         Destroy(usingCard.gameObject); // must add card to grave, fix it!
+
         nextPhase = UseCardPhase;
+        CheckGameState(); // if false, battle will be interrupted.
         NextPhase();
+    }
+
+    public void CheckGameState() // 게임이 종료될지 체크함
+    {
+        CheckCharDeath();
+        if(IsGameLose())
+        {
+            nextPhase = LoseGame; // this phase will interrupt flow of game loop.
+        }
+        else if(IsGameWin())
+        {
+            nextPhase = WinGame; // this phase will interrupt flow of game loop.
+        }
+        else
+        {
+            // do nothing
+        }
+    }
+
+    public bool CheckCharDeath()
+    {
+        bool isDead = false;
+        for(int i = 0; i < turnList.Count; i++)
+        {
+            if(turnList[i].GetComponent<Character>().stat.hp <= 0) // 죽음 판정 실행
+            {
+                isDead = true;
+                Character deadChar = charactersInfo[i].GetComponent<Character>(); // not use
+                
+                charactersInfo.RemoveAt(deadChar.index);
+
+                if(i == turnNum) // 턴을 가진 캐릭터가 죽을 때의 처리
+                {
+                    turnNum--;
+                    nextPhase = SkipTurnPhase;
+                }
+
+                charactersInfo[i].gameObject.SetActive(false);
+                turnList.RemoveAt(i);
+                // 대상 지정 영역 갱신 필요
+            }
+        }
+        return isDead;
+    }
+
+    public bool IsGameWin()
+    {
+        for(int i = 0; i < turnList.Count; i++)
+        {
+            if(charactersInfo[i].GetComponent<Character>().faction == Faction.Enemy)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public bool IsGameLose() // 동시에 모두 다 죽으면 패배로 처리
+    {
+        for(int i = 0; i < turnList.Count; i++)
+        {
+            if(turnList[i].GetComponent<Character>().faction == Faction.Player)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void WinGame()
+    {
+        Debug.Log("You Win");
+    }
+
+    private void LoseGame()
+    {
+        Debug.Log("You Lose");
+    }
+
+    public void PassTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
+    {
+        turnNum += 1;
+        if(turnNum >= turnList.Count)
+        {
+            nextPhase = EndCyclePhase;
+        }
+        else
+        {
+            nextPhase = StartTurnPhase;
+        }
+        nextPhase();
+    }
+
+    public void SkipTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
+    {
+        if(turnNum >= turnList.Count)
+        {
+            nextPhase = EndCyclePhase;
+        }
+        else
+        {
+            nextPhase = StartTurnPhase;
+        }
+        nextPhase();
+    }
+
+    public void EndCyclePhase()
+    {
+
+    }
+
+    public void StartCyclePhase()
+    {
+
     }
 
     public void NextPhase() // 강제로 페이즈를 넘기는 기능, 주로 UI 매니저가 호출함
