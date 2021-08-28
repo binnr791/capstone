@@ -111,6 +111,7 @@ public class CardManager : MonoBehaviour
         deck.Add(card);
         deck.Sort(); // used IComparable in Card class
         card.GetComponent<RectTransform>().SetParent(deckTransform);
+        card.gameObject.SetActive(true);
 
         updateDeckUI();
     }
