@@ -294,7 +294,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 231711957}
-  - component: {fileID: 231711958}
   - component: {fileID: 231711960}
   - component: {fileID: 231711959}
   m_Layer: 5
@@ -325,18 +324,6 @@ RectTransform:
   m_AnchoredPosition: {x: 50, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &231711958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 231711956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1979e3b0e65e7c54bb2dfca0f8471252, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &231711959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1854,12 +1841,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dac9f964c032764da4e89603cfe0210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+
+  deckbutton: {fileID: 899381599}
+  d_backbutton: {fileID: 233135683}
   UICycle: {fileID: 868427340}
   cancelUsingCardBtn: {fileID: 2055409284}
-  deckbutton: {fileID: 899381599}
-  d_backbutton: {fileID: 1064562830}
-  noticebox: {fileID: 361973635}
-  noticetext: {fileID: 583063271}
+  noticebox: {fileID: 0}
+  noticetext: {fileID: 0}
+
 --- !u!114 &1229610256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1937,14 +1926,17 @@ MonoBehaviour:
   field: {fileID: 982736830}
   characterStats:
   - maxhp: 25
-    hp: 25
+    hp: 1
+    baseSpeed: 50
+  - maxhp: 25
+    hp: 1
     baseSpeed: 50
   enemyStats:
   - maxhp: 25
-    hp: 25
+    hp: 1
     baseSpeed: 50
   - maxhp: 25
-    hp: 25
+    hp: 1
     baseSpeed: 50
 --- !u!114 &1229610260
 MonoBehaviour:
@@ -2491,7 +2483,6 @@ GameObject:
   - component: {fileID: 1706186083}
   - component: {fileID: 1706186082}
   - component: {fileID: 1706186081}
-  - component: {fileID: 1706186084}
   m_Layer: 5
   m_Name: TurnEndButton
   m_TagString: Untagged
@@ -2563,7 +2554,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1229610257}
-        m_MethodName: TurnEnd
+
+        m_MethodName: PassTurnPhase
+
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2610,18 +2603,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1706186079}
   m_CullTransparentMesh: 0
---- !u!114 &1706186084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1706186079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a656a226fb515924299845026f9d80b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1728814782
 GameObject:
   m_ObjectHideFlags: 0
