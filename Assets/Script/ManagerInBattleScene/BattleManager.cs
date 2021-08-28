@@ -151,6 +151,27 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    public void UserInputStep()
+    {
+        userInput = true; // or false
+    }
+
+    public void TryUsingCard()
+    {
+        if(usingCard.HasCardProperty(CardProperty.ChooseTarget))
+        {
+            BattleUIManager.instance.EnableChooseResource();
+            nextPhase = UserInputStep;
+            NextPhase();
+        }
+        else
+        {
+            nextPhase = CardEffectStep;
+            NextPhase();
+        }
+    }
+
+
     public void CardEffectStep()
     {
         usingCard.effectInfo.effect();
@@ -302,57 +323,3 @@ public class BattleManager : MonoBehaviour
         usingCard = null;
     }
 }
-
-    // public void PassTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
-    // {
-    //     if(turnNum >= turnList.Count)
-    //     {
-    //         nextPhase += NextCyclePhase;
-    //     }
-    //     else
-    //     {
-    //         turnNum += 1;
-            
-    //         // if ally
-    //         // nextPhase = GainResourcePhase;
-    //         // // if enemy
-    //         // nextPhase = EnemyActPhase;
-    //         // implement something
-    //     }
-    //     nextPhase();
-    // }
-
-    // public void NextCyclePhase()
-    // {
-
-    // }
-
-    // public void TryUsingCard()
-    // {
-    //     if(usingCard.HasCardProperty(CardProperty.ChooseTarget))
-    //     {
-    //         BattleUIManager.instance.EnableChooseResource();
-    //         nextPhase = UserInputStep;
-    //         NextPhase();
-    //     }
-    //     else
-    //     {
-    //         nextPhase = CardEffectStep;
-    //         NextPhase();
-    //     }
-    // }
-
-    // public void UserInputStep()
-    // {
-    //     bool userInput = true; // or false
-    //     //BattleUIManager.instance.
-    //     // if(userInput)
-    //     // {
-    //     //     nextPhase = CardEffectStep;
-    //     // }
-    //     // else // cancel using card
-    //     // {
-    //     //     nextPhase = UseCardPhase;
-    //     // }
-    //     // uimanager will call nextphase
-    // }
