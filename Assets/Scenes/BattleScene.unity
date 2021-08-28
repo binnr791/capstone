@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 361973638}
   - component: {fileID: 361973637}
   m_Layer: 5
-  m_Name: Image
+  m_Name: notice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -429,7 +429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.14117648}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1854,10 +1854,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dac9f964c032764da4e89603cfe0210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckbutton: {fileID: 899381599}
-  d_backbutton: {fileID: 1064562830}
   UICycle: {fileID: 868427340}
   cancelUsingCardBtn: {fileID: 2055409284}
+  deckbutton: {fileID: 899381599}
+  d_backbutton: {fileID: 1064562830}
   noticebox: {fileID: 361973635}
   noticetext: {fileID: 583063271}
 --- !u!114 &1229610256
