@@ -208,9 +208,21 @@ public class BattleManager : MonoBehaviour
             if(turnList[i].GetComponent<Character>().stat.hp <= 0) // 죽음 판정 실행
             {
                 isDead = true;
-                Character deadChar = charactersInfo[i].GetComponent<Character>(); // not use
-                
-                charactersInfo.RemoveAt(deadChar.index);
+                GameObject deadChar = turnList[i];
+                deadChar.SetActive(false);
+                //charactersInfo.Remove(deadChar.GetComponent<Character>());
+                turnList.Remove(deadChar);
+                Debug.Log("remain "+turnList.Count);
+                Debug.Log("now turn "+turnNum);
+                if(i < turnNum) // 앞순서의 적이 죽었을때 순서를 1씩 당겨줌
+                {
+                    turnNum--;
+                }
+
+                // Character deadChar = turnList[i].GetComponent<Character>(); // not use
+                // charactersInfo[deadChar.index.gameObject.SetActive(false);
+                // charactersInfo.RemoveAt(deadChar.index);
+                // turnList.RemoveAt(i);
 
                 if(i == turnNum) // 턴을 가진 캐릭터가 죽을 때의 처리
                 {
@@ -218,8 +230,7 @@ public class BattleManager : MonoBehaviour
                     nextPhase = SkipTurnPhase;
                 }
 
-                charactersInfo[i].gameObject.SetActive(false);
-                turnList.RemoveAt(i);
+                
                 // 대상 지정 영역 갱신 필요
             }
         }

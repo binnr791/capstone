@@ -7,10 +7,10 @@ public class SelectTargetArea : MonoBehaviour, IDropHandler, IPointerDownHandler
 {
     public int charIndex; // 외부에서 초기화하기, 몇 번째 캐릭터를 선택했는지 전달하기 위해 필요한 변수
     public bool isEnemyArea;
+    public static int usableCost;
 
     private void Awake()
     {
-        
     }
 
     private void Start()
@@ -59,7 +59,11 @@ public class SelectTargetArea : MonoBehaviour, IDropHandler, IPointerDownHandler
             if(BattleManager.instance.playerAct)
             {
                 Card droppedCard = eventData.pointerDrag.GetComponent<Card>();
-                if(droppedCard != null)
+                if(GameManager.instance.checkCost && droppedCard.cost > usableCost) // 코스트가 부족할때 카드사용을 못하게함.
+                {
+                    Debug.Log("Not Enough Cost!");
+                }
+                else if(droppedCard != null)
                 {
                     BattleManager.instance.usingCard = droppedCard;
                     BattleManager.instance.userCharacter = charIndex;
