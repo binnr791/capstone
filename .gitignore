@@ -58,3 +58,16 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+Assets/Resources/Font.meta
+Assets/Resources/Font.meta
+Assets/Resources/Prefab/BattleUI.meta
+Assets/Resources/Font.meta
+*.meta
+Assets/Resources/Font.meta
+Assets/Resources/Prefab/BattleUI.meta
+Assets/Resources/Shader.meta
+Assets/Script/Camera.meta
+Assets/Script/Character/Ally.meta
+Assets/Script/Character/Enemy.meta
+Assets/Script/Util.meta
+Packages/packages-lock.json
