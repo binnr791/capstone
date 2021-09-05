@@ -16,10 +16,18 @@ public class Character : MonoBehaviour
     public Text staminapoint;
     public Text blockpoint;
 
+    [Header("Debug")]
+    public Text charNameText;
+
     public Status stat; // 직렬화를 하려고 stat 클래스를 만듦.
     public Faction faction;
 
+    [HideInInspector] public string charName;
 
+    private void Start()
+    {
+        charNameText.text = charName;
+    }
 
     void Update()
     {

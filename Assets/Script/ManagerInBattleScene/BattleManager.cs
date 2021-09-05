@@ -79,13 +79,13 @@ public class BattleManager : MonoBehaviour
         //Player Turn
         else if(turnList[turnNum].GetComponent<Character>().faction == Faction.Player)
         {
-            Debug.Log("Player Action");
+            Debug.Log("Player Turn Start : " + turnList[turnNum].GetComponent<Character>().charName);
             DrawTurn();
 
         }//Enemy Turn
         else if(turnList[turnNum].GetComponent<Character>().faction == Faction.Enemy)
         {
-            Debug.Log("Enemy Action");
+            Debug.Log("Enemy Turn Start : " + turnList[turnNum].GetComponent<Character>().charName);
             turnNum++;
             StartTurnPhase();
         }
@@ -175,6 +175,7 @@ public class BattleManager : MonoBehaviour
 
     public void CardEffectStep()
     {
+        turnList[turnNum].GetComponent<Character>().stat.stamina -= usingCard.cost;
         usingCard.effectInfo.effect();
         Destroy(usingCard.gameObject); // must add card to grave, fix it!
 
@@ -212,8 +213,8 @@ public class BattleManager : MonoBehaviour
                 deadChar.SetActive(false);
                 //charactersInfo.Remove(deadChar.GetComponent<Character>());
                 turnList.Remove(deadChar);
-                Debug.Log("remain "+turnList.Count);
-                Debug.Log("now turn "+turnNum);
+                Debug.Log("Current Number of Characters : " + turnList.Count);
+                Debug.Log("now turn " + turnNum);
                 if(i < turnNum) // 앞순서의 적이 죽었을때 순서를 1씩 당겨줌
                 {
                     turnNum--;

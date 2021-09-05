@@ -59,7 +59,8 @@ public class SelectTargetArea : MonoBehaviour, IDropHandler, IPointerDownHandler
             if(BattleManager.instance.playerAct)
             {
                 Card droppedCard = eventData.pointerDrag.GetComponent<Card>();
-                if(GameManager.instance.checkCost && droppedCard.cost > usableCost) // 코스트가 부족할때 카드사용을 못하게함.
+                if(GameManager.instance.checkCost && droppedCard.cost > usableCost)
+                 // 코스트가 부족할때 카드사용을 못하게함.
                 {
                     Debug.Log("Not Enough Cost!");
                 }
