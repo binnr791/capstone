@@ -177,7 +177,7 @@ public class BattleManager : MonoBehaviour
     {
         turnList[turnNum].GetComponent<Character>().stat.stamina -= usingCard.cost;
         usingCard.effectInfo.effect();
-        Destroy(usingCard.gameObject); // must add card to grave, fix it!
+        CardManager.instance.HandleUsedCard(usingCard);
 
         nextPhase = UseCardPhase;
         CheckGameState(); // if false, battle will be interrupted.
@@ -334,5 +334,16 @@ public class BattleManager : MonoBehaviour
         targetCharacter = -1;
         userInput = false;
         usingCard = null;
+    }
+
+
+    // debug function
+
+    public void InfiniteStamina()
+    {
+        for(int i = 0; i < charactersInfo.Count; i++)
+        {
+            charactersInfo[i].stat.stamina = 99;
+        }
     }
 }
