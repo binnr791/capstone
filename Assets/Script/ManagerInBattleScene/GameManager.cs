@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public bool checkCost = true;
 
     // public int health1 = 100;
     // public int stamina1;
