@@ -1999,7 +1999,7 @@ MonoBehaviour:
   turnNum: 0
   turnList: []
   playerAct: 0
-  userInput: 0
+  userInput: 1
   targetCharacter: -1
   userCharacter: -1
   charactersInfo: []
