@@ -67,11 +67,22 @@ public class BattleUIManager : MonoBehaviour
     {
         deckbutton.SetActive(false);
         showDeckPanel.SetActive(true);
+        CardManager.instance.DeckTransform.gameObject.SetActive(true);
     }
+
+    public void ShowGrave()
+    {
+        deckbutton.SetActive(false);
+        showDeckPanel.SetActive(true);
+        CardManager.instance.GraveTransform.gameObject.SetActive(true);
+    }
+
     public void backtofield()
     {
         deckbutton.SetActive(true);
         showDeckPanel.SetActive(false);
+        CardManager.instance.DeckTransform.gameObject.SetActive(false);
+        CardManager.instance.GraveTransform.gameObject.SetActive(false);
     }
 
     public void EnableChooseResource()

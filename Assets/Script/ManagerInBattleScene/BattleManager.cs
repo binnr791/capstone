@@ -183,6 +183,8 @@ public class BattleManager : MonoBehaviour
     {
         turnList[turnNum].GetComponent<Character>().stat.stamina -= usingCard.cost;
         usingCard.effectInfo.effect();
+        usingCard.gameObject.SetActive(true);
+        usingCard.GetComponent<Cardpop>().ExplictlyEndDrag();
         CardManager.instance.HandleUsedCard(usingCard);
 
         nextPhase = UseCardPhase;

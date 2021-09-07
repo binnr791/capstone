@@ -185,4 +185,25 @@ public class CardManager : MonoBehaviour
             AddCardInDeck(newCard);
         }
     }
+
+    // UI
+    public List<GameObject> GetDeckCards()
+    {
+        List<GameObject> deck = new List<GameObject>();
+        for(int i = 0; i < deckTransform.childCount; i++)
+        {
+            deck.Add(deckTransform.GetChild(i).gameObject);
+        }
+        return deck;
+    }
+
+    public List<GameObject> GetGraveCards()
+    {
+        List<GameObject> grave = new List<GameObject>();
+        for(int i = 0; i < graveTransform.childCount; i++)
+        {
+            grave.Add(graveTransform.GetChild(i).gameObject);
+        }
+        return grave;
+    }
 }
