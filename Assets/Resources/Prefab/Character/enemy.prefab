@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6472775, g: 1, b: 0.4245283, a: 0.47058824}
+  m_Color: {r: 0.6472775, g: 1, b: 0.4245283, a: 0.27450982}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1228,6 +1228,7 @@ MonoBehaviour:
   maxpoint: {fileID: 5552443867889726692}
   staminapoint: {fileID: 3027135065979320896}
   blockpoint: {fileID: 288423450754017311}
+  nowturn: {fileID: 9043956132411151431}
   charNameText: {fileID: 1586561137699118010}
   stat:
     maxhp: 0

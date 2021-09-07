@@ -15,6 +15,7 @@ public class Character : MonoBehaviour
     public Text maxpoint;
     public Text staminapoint;
     public Text blockpoint;
+    public Image nowturn;
 
     [Header("Debug")]
     public Text charNameText;
