@@ -15,7 +15,7 @@ public class BattleManager : MonoBehaviour
     public bool userInput;
     public int targetCharacter = -1; // -1 case will cause target required error
     public int userCharacter = -1;
-    EnemyAct enemyAct;
+    //EnemyAct enemyAct;
 
     // 캐릭터 레퍼런스를 가져와서 수정하는 걸로 구현하기
     public List<Character> charactersInfo;
