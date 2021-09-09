@@ -15,7 +15,9 @@ public class BattleManager : MonoBehaviour
     public bool userInput;
     public int targetCharacter = -1; // -1 case will cause target required error
     public int userCharacter = -1;
-  
+    
+    //EnemyAct enemyAct;
+
 
     // 캐릭터 레퍼런스를 가져와서 수정하는 걸로 구현하기
     public List<Character> charactersInfo;
@@ -87,6 +89,9 @@ public class BattleManager : MonoBehaviour
         }//Enemy Turn
         else if(turnList[turnNum].GetComponent<Character>().faction == Faction.Enemy)
         {
+            //Debug.Log("Enemy Action");
+            //StartCoroutine(EnemyActPhase());
+            //enemyAct.EAttack();
             Debug.Log("Enemy Turn Start : " + turnList[turnNum].GetComponent<Character>().charName);
             //turnList[turnNum].GetComponent<Character>().nowturn.color = new Color(1, 71/255f,83 / 255f, 120/255f);
             turnNum++;
@@ -98,6 +103,13 @@ public class BattleManager : MonoBehaviour
         {
             Debug.Log("Error");
         }
+    }
+    // Enemy Action
+
+    IEnumerator EnemyActPhase()
+    {
+        turnNum++;
+        yield return null;
     }
     
     public void DrawTurn()
