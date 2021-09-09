@@ -82,6 +82,22 @@ public class CardManager : MonoBehaviour
         hand.RemoveAt(index);
     }
 
+    /// <summary>
+    /// 카드 사용을 승인 및 카드 효과 처리가 완료됐을 때 처리
+    /// </summary>
+    /// <param name="usedCard"></param>
+    public void HandleUsedCard(Card usedCard)
+    {
+        if(usedCard.HasCardProperty(CardProperty.Recycle))
+        {
+            AddCardInDeck(usedCard);
+        }
+        else
+        {
+            AddCardInGrave(usedCard);
+        }
+    }
+
     // ---------GRAVE-----------
 
     public void AddCardInGrave(Card card)
@@ -111,6 +127,7 @@ public class CardManager : MonoBehaviour
         deck.Add(card);
         deck.Sort(); // used IComparable in Card class
         card.GetComponent<RectTransform>().SetParent(deckTransform);
+        //card.gameObject.SetActive(true);
 
         updateDeckUI();
     }
@@ -160,11 +177,33 @@ public class CardManager : MonoBehaviour
     {
         // int[] cardIDList = {1, 1, 1, 1, 1, 1}; // this will be changed to deck cards.
         int[] cardIDList = {0, 0, 0, 1, 1, 1, 2, 3, 4}; // this will be changed to deck cards.
-        
+        //int[] cardIDList = {0, 0, 0, 1, 1, 1, 2, 3, 4}; // this will be changed to deck cards.
+        //int[] cardIDList = {0, 0, 1, 1, 2, 7, 7, 7, 7, 7};
         for(int i = 0; i < cardIDList.Length; i++)
         {
             Card newCard = CardDataLoader.instance.GetCard(cardIDList[i]);
             AddCardInDeck(newCard);
         }
+    }
+
+    // UI
+    public List<GameObject> GetDeckCards()
+    {
+        List<GameObject> deck = new List<GameObject>();
+        for(int i = 0; i < deckTransform.childCount; i++)
+        {
+            deck.Add(deckTransform.GetChild(i).gameObject);
+        }
+        return deck;
+    }
+
+    public List<GameObject> GetGraveCards()
+    {
+        List<GameObject> grave = new List<GameObject>();
+        for(int i = 0; i < graveTransform.childCount; i++)
+        {
+            grave.Add(graveTransform.GetChild(i).gameObject);
+        }
+        return grave;
     }
 }

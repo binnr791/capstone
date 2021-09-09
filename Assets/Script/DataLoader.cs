@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [DefaultExecutionOrder(-10)]
 public class DataLoader : MonoBehaviour
@@ -22,10 +23,8 @@ public class DataLoader : MonoBehaviour
     public List<GameObject> CreateField()
     {
         GameObject characterPrefab = Resources.Load<GameObject>("Prefab/Character/Ally_B");
+        GameObject enemyPrefab = Resources.Load<GameObject>("Prefab/Character/enemy");
         List<GameObject> result = new List<GameObject>();
-
-        // characterStats = new List<StatInspector>();
-        // enemyStats = new List<StatInspector>();
 
         int charIndex = 0;
 
@@ -37,6 +36,8 @@ public class DataLoader : MonoBehaviour
             characterObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-400, 300 - (i * 350));
             
             AssignStatus(characterObj, characterStats[i]);
+            characterObj.GetComponent<Image>().sprite = characterStats[i].charSprite;
+            characterObj.GetComponent<Character>().charName = characterStats[i].charName;
             characterObj.GetComponent<Character>().faction = Faction.Player;
             characterObj.GetComponent<Character>().index = charIndex++;
             
@@ -47,11 +48,13 @@ public class DataLoader : MonoBehaviour
 
         for(int i = 0; i < enemyStats.Count; i++)
         {
-            GameObject characterObj = Instantiate(characterPrefab);
+            GameObject characterObj = Instantiate(enemyPrefab);
             characterObj.GetComponent<RectTransform>().SetParent(field);
             characterObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(400, 300 - (i * 350));
             
             AssignStatus(characterObj, enemyStats[i]);
+            characterObj.GetComponent<Image>().sprite = enemyStats[i].charSprite;
+            characterObj.GetComponent<Character>().charName = enemyStats[i].charName;
             characterObj.GetComponent<Character>().faction = Faction.Enemy;
             characterObj.GetComponent<Character>().index = charIndex++;
             
@@ -76,4 +79,6 @@ public struct StatInspector
     public int maxhp;
     public int hp;
     public int baseSpeed;
+    public Sprite charSprite;
+    public string charName;
 }
