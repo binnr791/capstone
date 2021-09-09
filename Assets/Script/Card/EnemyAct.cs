@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class EnemyAct : MonoBehaviour
 {
-    private static EnemyAct instance;
+    //private static EnemyAct instance;
     public List<Character> charactersInfo;
     public Dictionary<int, actFunc> idToAct;
     public delegate void actFunc();
@@ -26,7 +26,6 @@ public class EnemyAct : MonoBehaviour
         idToAct[0] = EAttack;
         idToAct[1] = EHeal;
         idToAct[2] = EBlock;
-
     }
 
     private Character Identification()
@@ -42,30 +41,70 @@ public class EnemyAct : MonoBehaviour
         }
         //return charactersInfo[EnemyTarget];
     }
-
     
 
     public void EAttack()
     {
-        Character targetChar = EnemyAct.instance.Identification();
+        Character targetChar = GetRandomPlayer();
         Character userChar = BattleManager.instance.GetUserCharacter();
         effectLibrary.Attack(userChar, targetChar, 3);
+        LogEnemyAct("Enemy Attack", userChar, targetChar);
     }
 
     public void EHeal()
     {
-        Character targetChar = BattleManager.instance.GetTargetCharacter();
+        Character targetChar = GetRandomEnemy();
         Character userChar = BattleManager.instance.GetUserCharacter();
         effectLibrary.Heal(userChar, targetChar, 3);
-
+        LogEnemyAct("Enemy Heal", userChar, targetChar);
     }
 
     public void EBlock()
     {
-        Character targetChar = BattleManager.instance.GetTargetCharacter();
+        Character targetChar = GetRandomEnemy();
         Character userChar = BattleManager.instance.GetUserCharacter();
         effectLibrary.Armor(userChar, targetChar, 3);
+        LogEnemyAct("Enemy Block", userChar, targetChar);
+    }
 
+    public actFunc GetRandomEnemyAction()
+    {
+        return idToAct[Random.Range(0, idToAct.Count)];
+    }
+
+    public Character GetRandomPlayer() // enemy 입장에서의 enemy
+    {
+        List<Character> players = new List<Character>();
+
+        List<Character> characters = BattleManager.instance.charactersInfo;
+        for(int n = 0 ; n < characters.Count; n++)
+        {
+            if(BattleManager.instance.charactersInfo[n].faction == Faction.Player)
+            {
+                players.Add (BattleManager.instance.charactersInfo[n]);
+            }
+        }
+        return players[Random.Range(0, players.Count)];
+    }
+
+    public Character GetRandomEnemy() // enemy 입장에서의 ally
+    {
+        List<Character> enemies = new List<Character>();
+
+        List<Character> characters = BattleManager.instance.charactersInfo;
+        for(int n = 0 ; n < characters.Count; n++)
+        {
+            if(BattleManager.instance.charactersInfo[n].faction == Faction.Enemy)
+            {
+                enemies.Add (BattleManager.instance.charactersInfo[n]);
+            }
+        }
+        return enemies[Random.Range(0, enemies.Count)];
+    }
+
+    public void LogEnemyAct(string action, Character userChar, Character targetChar)
+    {
+        Debug.Log(action + ", User : " + userChar.charName.ToString() + ", Target : " + targetChar.charName.ToString());
     }
 
     // 질문사항

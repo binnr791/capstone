@@ -71,6 +71,8 @@ public class CardManager : MonoBehaviour
         
         card.GetComponent<RectTransform>().SetParent(handTransform);
         card.gameObject.SetActive(true);
+
+        UpdateAvailableHand();
     }
 
     /// <summary>
@@ -205,5 +207,28 @@ public class CardManager : MonoBehaviour
             grave.Add(graveTransform.GetChild(i).gameObject);
         }
         return grave;
+    }
+
+    /// <summary>
+    /// 현재 턴의 캐릭터의 스테미나에 따라서 패에서 사용 가능한 카드를 바꿈.
+    /// </summary>
+    public void UpdateAvailableHand()
+    {
+        Character curTurnChar = BattleManager.instance.GetCurrentTurnChar();
+        if(curTurnChar.faction == Faction.Player)
+        {
+            for(int i = 0; i < hand.Count; i++)
+            {
+                hand[i].GetComponent<Cardpop>().isEnoughCost =
+                    BattleManager.instance.GetCurrentTurnChar().stat.stamina >= hand[i].GetComponent<Card>().cost;
+            }
+        }
+        else // diable hand when enemy turn
+        {
+            for(int i = 0; i < hand.Count; i++)
+            {
+                hand[i].GetComponent<Cardpop>().isEnoughCost = false;
+            }
+        }
     }
 }

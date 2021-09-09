@@ -11,6 +11,7 @@ public class Cardpop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     [SerializeField] bool IsDragging;
 
     public int index;
+    public bool isEnoughCost;
 
     RectTransform rTransform;
     CanvasGroup canvasGroup;
@@ -27,7 +28,7 @@ public class Cardpop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(BattleManager.instance.playerAct)
+        if(BattleManager.instance.playerAct && isEnoughCost)
         {
             IsDragging = true;
             rTransform.SetParent(grabbingCard);
@@ -35,10 +36,14 @@ public class Cardpop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
             rTransform.anchorMax = new Vector2(0.5f, 0.5f);
             canvasGroup.blocksRaycasts = false; // 상호작용 off
         }
+        else if(BattleManager.instance.playerAct == true && !isEnoughCost)
+        {
+            Debug.Log("Not Enough Cost To Use The Card");
+        }
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(BattleManager.instance.playerAct)
+        if(BattleManager.instance.playerAct && isEnoughCost)
         {
             ExplictlyEndDrag();
         }
@@ -46,7 +51,7 @@ public class Cardpop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
 
     public void OnDrag(PointerEventData eventData)
     {
-        if(BattleManager.instance.playerAct)
+        if(BattleManager.instance.playerAct && isEnoughCost)
         {
             // 핸드 트랜스폼(레이아웃)에서 분리
             rTransform.anchoredPosition = (Input.mousePosition); // 위치 갱신

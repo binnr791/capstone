@@ -16,8 +16,9 @@ public class BattleManager : MonoBehaviour
     public int targetCharacter = -1; // -1 case will cause target required error
     public int userCharacter = -1;
     
-    //EnemyAct enemyAct;
+    private EnemyAct enemyAct;
 
+    public Character currentTurnChar;
 
     // 캐릭터 레퍼런스를 가져와서 수정하는 걸로 구현하기
     public List<Character> charactersInfo;
@@ -27,8 +28,10 @@ public class BattleManager : MonoBehaviour
     public delegate void phase();
     public phase nextPhase;
 
-    void Awake()
+    void Start()
     {
+        enemyAct = GetComponent<EnemyAct>();
+
         if(instance == null)
         {
             instance = this;
@@ -82,22 +85,19 @@ public class BattleManager : MonoBehaviour
         //Player Turn
         else if(turnList[turnNum].GetComponent<Character>().faction == Faction.Player)
         {
-            turnList[turnNum].GetComponent<Character>().nowturn.color = new Color( 1, 71/255f,83 / 255f, 120/255f);
+            turnList[turnNum].GetComponent<Character>().nowturn.color = new Color(1, 71/255f, 83/255f, 120/255f);
             Debug.Log("Player Turn Start : " + turnList[turnNum].GetComponent<Character>().charName);
+            CardManager.instance.UpdateAvailableHand();
             DrawTurn();
 
         }//Enemy Turn
         else if(turnList[turnNum].GetComponent<Character>().faction == Faction.Enemy)
         {
-            //Debug.Log("Enemy Action");
-            //StartCoroutine(EnemyActPhase());
-            //enemyAct.EAttack();
             Debug.Log("Enemy Turn Start : " + turnList[turnNum].GetComponent<Character>().charName);
             //turnList[turnNum].GetComponent<Character>().nowturn.color = new Color(1, 71/255f,83 / 255f, 120/255f);
-            turnNum++;
             //turnList[turnNum-1].GetComponent<Character>().nowturn.color = new Color(165 / 255f, 1, 108 / 255f, 70/255f);
-            StartTurnPhase();
-
+            CardManager.instance.UpdateAvailableHand();
+            EnemyActPhase();
         }
         else
         {
@@ -106,10 +106,10 @@ public class BattleManager : MonoBehaviour
     }
     // Enemy Action
 
-    IEnumerator EnemyActPhase()
+    public void EnemyActPhase()
     {
-        turnNum++;
-        yield return null;
+        enemyAct.GetRandomEnemyAction() ();
+        TurnEnd();
     }
     
     public void DrawTurn()
@@ -130,23 +130,28 @@ public class BattleManager : MonoBehaviour
 
     public void TurnEnd()
     {
-        if(BattleManager.instance.playerAct)
+        if(turnList[turnNum].GetComponent<Character>().faction == Faction.Player)
         {
             playerAct = false;
             turnList[turnNum].GetComponent<Character>().nowturn.color = new Color(165 / 255f, 1, 108 / 255f, 70/ 255f);
-            Debug.Log("Turn End");
-            turnNum++;
-            StartTurnPhase();
+            Debug.Log("Player Turn End");
+        }
+        else if(turnList[turnNum].GetComponent<Character>().faction == Faction.Enemy)
+        {
+            Debug.Log("Enemy Turn End");
         }
         else
         {
-            Debug.Log("Not Player Turn");
+            Debug.LogError("Not implemented turn end of new faction char!");
         }
+        turnNum++;
+        StartTurnPhase();
     }
     
     public void ChooseGainStamina() // not phase
     {
         turnList[turnNum].GetComponent<Character>().stat.stamina += 3;
+        CardManager.instance.UpdateAvailableHand();
         UseCardPhase();
     }
 
@@ -292,19 +297,19 @@ public class BattleManager : MonoBehaviour
         Debug.Log("You Lose");
     }
 
-    public void PassTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
-    {
-        turnNum += 1;
-        if(turnNum >= turnList.Count)
-        {
-            nextPhase = EndCyclePhase;
-        }
-        else
-        {
-            nextPhase = StartTurnPhase;
-        }
-        nextPhase();
-    }
+    // public void PassTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
+    // {
+    //     turnNum += 1;
+    //     if(turnNum >= turnList.Count)
+    //     {
+    //         nextPhase = EndCyclePhase;
+    //     }
+    //     else
+    //     {
+    //         nextPhase = StartTurnPhase;
+    //     }
+    //     nextPhase();
+    // }
 
     public void SkipTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
     {
@@ -341,7 +346,24 @@ public class BattleManager : MonoBehaviour
 
     public Character GetUserCharacter()
     {
-        return charactersInfo[userCharacter];
+        if(GetCurrentTurnChar().faction == Faction.Player)
+        {
+            return charactersInfo[userCharacter];
+        }
+        else if(GetCurrentTurnChar().faction == Faction.Enemy)
+        {
+            return GetCurrentTurnChar();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public Character GetCurrentTurnChar()
+    {
+        currentTurnChar = turnList[turnNum].GetComponent<Character>();
+        return turnList[turnNum].GetComponent<Character>();
     }
 
     public void CancelUsingCard()
