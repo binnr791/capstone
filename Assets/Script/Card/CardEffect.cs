@@ -73,7 +73,6 @@ public class CardEffect : MonoBehaviour
 
 
         effectLibrary.Attack(user, targetChar, 3);
-
     }
 
     public void SingleTargetHeal()
@@ -107,7 +106,10 @@ public class CardEffect : MonoBehaviour
 
     public void RecylceAttack()
     {
+        Character user = BattleManager.instance.GetUserCharacter();
+        Character targetChar = BattleManager.instance.GetTargetCharacter();
 
+        effectLibrary.Attack(user, targetChar, 7);
     }
 
     public void HealAllAlly()

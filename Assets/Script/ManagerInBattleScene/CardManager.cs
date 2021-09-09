@@ -70,6 +70,7 @@ public class CardManager : MonoBehaviour
         hand.Add(card);
         
         card.GetComponent<RectTransform>().SetParent(handTransform);
+        card.GetComponent<Outline>().enabled = true;
         card.gameObject.SetActive(true);
 
         UpdateAvailableHand();
@@ -107,6 +108,7 @@ public class CardManager : MonoBehaviour
         grave.Add(card);
         grave.Sort(); // used IComparable in Card class
         card.GetComponent<RectTransform>().SetParent(graveTransform);
+        card.GetComponent<Outline>().enabled = false;
 
         updateGraveUI();
     }
@@ -129,6 +131,7 @@ public class CardManager : MonoBehaviour
         deck.Add(card);
         deck.Sort(); // used IComparable in Card class
         card.GetComponent<RectTransform>().SetParent(deckTransform);
+        card.GetComponent<Outline>().enabled = false;
         //card.gameObject.SetActive(true);
 
         updateDeckUI();
@@ -178,9 +181,9 @@ public class CardManager : MonoBehaviour
     public void GenerateDeck() // use for deck building
     {
         // int[] cardIDList = {1, 1, 1, 1, 1, 1}; // this will be changed to deck cards.
-        int[] cardIDList = {0, 0, 0, 1, 1, 1, 2, 3, 4}; // this will be changed to deck cards.
+        // int[] cardIDList = {0, 0, 0, 1, 1, 1, 2, 3, 4}; // this will be changed to deck cards.
         //int[] cardIDList = {0, 0, 0, 1, 1, 1, 2, 3, 4}; // this will be changed to deck cards.
-        //int[] cardIDList = {0, 0, 1, 1, 2, 7, 7, 7, 7, 7};
+        int[] cardIDList = {0, 0, 1, 1, 2, 7, 7, 7, 7, 7}; // recycle deck
         for(int i = 0; i < cardIDList.Length; i++)
         {
             Card newCard = CardDataLoader.instance.GetCard(cardIDList[i]);
