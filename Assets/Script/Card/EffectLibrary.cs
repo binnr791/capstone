@@ -15,6 +15,7 @@ public class EffectLibrary : MonoBehaviour
 
     }
 
+
     //캐릭터 힐
     public void Heal(Character user, Character target, int amount)
     {
