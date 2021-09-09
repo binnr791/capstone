@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class Cardpop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
@@ -11,10 +12,30 @@ public class Cardpop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     [SerializeField] bool IsDragging;
 
     public int index;
-    public bool isEnoughCost;
+    private bool _isEnoughCost;
+    public bool isEnoughCost
+    {
+        get => _isEnoughCost;
+        set
+        {
+            _isEnoughCost = value;
+            if(isEnoughCost)
+            {
+                outline.effectColor = enableOutlineColor;
+            }
+            else
+            {
+                outline.effectColor = disableOutlineColor;
+            }
+        }
+    }
+
+    public Color enableOutlineColor;
+    public Color disableOutlineColor;
 
     RectTransform rTransform;
     CanvasGroup canvasGroup;
+    Outline outline;
 
     // --카드 생성시 할당--
     public RectTransform hand;
@@ -24,6 +45,10 @@ public class Cardpop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     {
         rTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
+        outline = GetComponent<Outline>();
+
+        enableOutlineColor = new Color(0.4f, 0.8f, 0.4f, 0.75f);
+        disableOutlineColor = new Color(0.8f, 0.4f, 0.4f, 0.75f);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -35,6 +60,8 @@ public class Cardpop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
             rTransform.anchorMin = new Vector2(0.5f, 0.5f); // 앵커 preset 변경
             rTransform.anchorMax = new Vector2(0.5f, 0.5f);
             canvasGroup.blocksRaycasts = false; // 상호작용 off
+
+            BattleUIManager.instance.EnableUseCardArea();
         }
         else if(BattleManager.instance.playerAct == true && !isEnoughCost)
         {
@@ -88,5 +115,6 @@ public class Cardpop : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         this.rTransform.SetParent(hand); // 핸드 트랜스폼과 결합
         this.rTransform.SetSiblingIndex(index); // 드래그 떼면 원래 위치로 되돌리기
         canvasGroup.blocksRaycasts = true; // 상호작용 on
+        BattleUIManager.instance.DisableUseCardArea();
     }
 }

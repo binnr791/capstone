@@ -11,13 +11,14 @@ public class BattleUIManager : MonoBehaviour
     [SerializeField] Text UICycle; // 인스펙터 활용
     [SerializeField] GameObject cancelUsingCardBtn; // button = btn
 
+    public GameObject useCardArea;
+
     public GameObject deckbutton;
     public GameObject showDeckPanel;
 
     [Header("Notice")] // 알림창
     public GameObject noticebox;
     public Text noticetext;
-
 
     private WaitForSeconds _UIDelay = new WaitForSeconds(2.3f);
 
@@ -83,6 +84,16 @@ public class BattleUIManager : MonoBehaviour
         showDeckPanel.SetActive(false);
         CardManager.instance.DeckTransform.gameObject.SetActive(false);
         CardManager.instance.GraveTransform.gameObject.SetActive(false);
+    }
+
+    public void EnableUseCardArea()
+    {
+        useCardArea.SetActive(true);
+    }
+
+    public void DisableUseCardArea()
+    {
+        useCardArea.SetActive(false);
     }
 
     public void EnableChooseResource()

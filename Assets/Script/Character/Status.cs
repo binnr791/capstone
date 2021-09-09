@@ -16,12 +16,7 @@ public struct Status
         set 
         {
             _stamina = value;
-            if(true) // 이부분 어떻게 해야할지 모르겠음
-            {
-                SelectTargetArea.usableCost = _stamina;
-                Debug.Log("Useable Cost is" +_stamina);
-                Debug.Log(BattleManager.instance.turnList[BattleManager.instance.turnNum].GetComponent<Character>().index);
-            }
+            CardManager.instance.UpdateAvailableHand();
         }
     }
     public int baseSpeed;
