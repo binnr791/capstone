@@ -371,6 +371,7 @@ public class BattleManager : MonoBehaviour
         usingCard.GetComponent<RectTransform>().SetParent(CardManager.instance.HandTransform);
         int index = usingCard.GetComponent<Cardpop>().index;
         usingCard.GetComponent<RectTransform>().SetSiblingIndex(index);
+        BattleUIManager.instance.DisableInstruction();
         usingCard.gameObject.SetActive(true);
         userCharacter = -1;
         targetCharacter = -1;

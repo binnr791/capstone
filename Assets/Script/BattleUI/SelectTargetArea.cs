@@ -21,6 +21,7 @@ public class SelectTargetArea : MonoBehaviour, IPointerDownHandler
             Debug.Log("User Input, target Index : " + charIndex.ToString());
             BattleManager.instance.targetCharacter = charIndex;
             BattleManager.instance.userInput = false;
+            BattleUIManager.instance.DisableInstruction();
             BattleUIManager.instance.DisableCancelUsingCardBtn();
             BattleManager.instance.CardEffectStep();
         }

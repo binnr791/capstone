@@ -16,6 +16,10 @@ public class BattleUIManager : MonoBehaviour
     public GameObject deckbutton;
     public GameObject showDeckPanel;
 
+    [Header("Instruction")] // 알림창
+    public GameObject instructionBox;
+    public Text instructionText;
+
     [Header("Notice")] // 알림창
     public GameObject noticebox;
     public Text noticetext;
@@ -28,6 +32,7 @@ public class BattleUIManager : MonoBehaviour
     private void Awake()
     {
         showDeckPanel.SetActive(false);
+        instructionBox.SetActive(false);
         noticebox.SetActive(false);
         if (instance == null)
         {
@@ -47,6 +52,17 @@ public class BattleUIManager : MonoBehaviour
     public void DisableCancelUsingCardBtn()
     {
         cancelUsingCardBtn.SetActive(false);
+    }
+
+    public void EnableInstruction(string instruction)
+    {
+        instructionBox.SetActive(true);
+        instructionText.text = instruction;
+    }
+
+    public void DisableInstruction()
+    {
+        instructionBox.SetActive(false);
     }
 
     public void notice(string message)
