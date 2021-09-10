@@ -20,10 +20,20 @@ public class Character : MonoBehaviour
     [Header("Debug")]
     public Text charNameText;
 
-    public Status stat; // 직렬화를 하려고 stat 클래스를 만듦.
+    public List<StatusEffect> statusEffects;
+    public Stat stat; // 직렬화를 하려고 stat 클래스를 만듦.
     public Faction faction;
 
+    protected delegate void turnEndFunc();
+    protected turnEndFunc TurnEndFunc;
+
     [HideInInspector] public string charName;
+
+    private void Awake()
+    {
+        statusEffects = new List<StatusEffect>();
+        TurnEndFunc += UpdateStatusEffect;
+    }
 
     private void Start()
     {
@@ -40,6 +50,30 @@ public class Character : MonoBehaviour
         staminapoint.text = stat.stamina.ToString();
         blockpoint.text = stat.block.ToString();
     }
+
+    public void battleStart()
+    {
+        stat.stamina = 4;
+    }
+
+    public void TurnEndEvent()
+    {
+        TurnEndFunc();
+    }
+
+    public void UpdateStatusEffect()
+    {
+        for(int i = 0; i < statusEffects.Count; i++)
+        {
+            statusEffects[i].remainTurn -= 1;
+            if(statusEffects[i].remainTurn <= 0)
+            {
+                statusEffects.RemoveAt(i);
+            }
+            i -= 1;
+        }
+    }
+    
 }
 
 public enum Faction

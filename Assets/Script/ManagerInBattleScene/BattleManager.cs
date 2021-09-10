@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(1)]
 public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
@@ -15,6 +16,8 @@ public class BattleManager : MonoBehaviour
     public bool userInput;
     public int targetCharacter = -1; // -1 case will cause target required error
     public int userCharacter = -1;
+
+    public int initialDrawCards = 4;
     
     private EnemyAct enemyAct;
 
@@ -55,7 +58,32 @@ public class BattleManager : MonoBehaviour
         }
 
         Debug.Log("Current Num of Characters : " + turnList.Count);
-        TurnAssignment();
+
+        TurnAssignment(); // turn assignment를 먼저 호출하지 않으면 battleStart - stamina 변경시 오류 발생
+
+        for(int i = 0; i < characters.Count; i++)
+        {
+            if(characters[i].GetComponent<Character>().faction == Faction.Player)
+            {
+                characters[i].GetComponent<Character>().battleStart(); // 스테미나 초기화, 전투 시작시 효과 발동
+            }
+        }
+        for(int i = 0; i < initialDrawCards; i++)
+        {
+            CardManager.instance.DrawCard();
+        }
+
+        StartCyclePhase(); // turn assignment는 호출하지 않음
+    }
+
+    public void StartCyclePhase()
+    {
+        if (turnNum >= turnList.Count)
+        {
+            turnNum = -1;
+            TurnAssignment();
+        }
+        StartTurnPhase();
     }
 
     void TurnAssignment() //Turn Mix
@@ -71,19 +99,12 @@ public class BattleManager : MonoBehaviour
             });
         }
         turnNum++;
-        StartTurnPhase();
     }
 
     void StartTurnPhase()
     {
-        //Turn Reset
-        if (turnNum >= turnList.Count)
-        {
-            turnNum = -1;
-            TurnAssignment();
-        }
         //Player Turn
-        else if(turnList[turnNum].GetComponent<Character>().faction == Faction.Player)
+        if(turnList[turnNum].GetComponent<Character>().faction == Faction.Player)
         {
             turnList[turnNum].GetComponent<Character>().nowturn.color = new Color(1, 71/255f, 83/255f, 120/255f);
             Debug.Log("Player Turn Start : " + turnList[turnNum].GetComponent<Character>().charName);
@@ -130,13 +151,14 @@ public class BattleManager : MonoBehaviour
 
     public void TurnEnd()
     {
-        if(turnList[turnNum].GetComponent<Character>().faction == Faction.Player)
+        if(GetCurrentTurnChar().faction == Faction.Player)
         {
+            GetCurrentTurnChar().TurnEndEvent();
             playerAct = false;
-            turnList[turnNum].GetComponent<Character>().nowturn.color = new Color(165 / 255f, 1, 108 / 255f, 70/ 255f);
+            GetCurrentTurnChar().nowturn.color = new Color(165 / 255f, 1, 108 / 255f, 70/ 255f);
             Debug.Log("Player Turn End");
         }
-        else if(turnList[turnNum].GetComponent<Character>().faction == Faction.Enemy)
+        else if(GetCurrentTurnChar().faction == Faction.Enemy)
         {
             Debug.Log("Enemy Turn End");
         }
@@ -145,7 +167,14 @@ public class BattleManager : MonoBehaviour
             Debug.LogError("Not implemented turn end of new faction char!");
         }
         turnNum++;
-        StartTurnPhase();
+        if (turnNum >= turnList.Count)
+        {
+            StartCyclePhase();
+        }
+        else
+        {
+            StartTurnPhase();
+        }
     }
     
     public void ChooseGainStamina() // not phase
@@ -315,23 +344,13 @@ public class BattleManager : MonoBehaviour
     {
         if(turnNum >= turnList.Count)
         {
-            nextPhase = EndCyclePhase;
+            nextPhase = StartCyclePhase;
         }
         else
         {
             nextPhase = StartTurnPhase;
         }
         nextPhase();
-    }
-
-    public void EndCyclePhase()
-    {
-
-    }
-
-    public void StartCyclePhase()
-    {
-
     }
 
     public void NextPhase() // 강제로 페이즈를 넘기는 기능, 주로 UI 매니저가 호출함

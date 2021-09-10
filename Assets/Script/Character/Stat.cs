@@ -4,7 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 
-public struct Status
+public struct Stat
 {
     public int maxhp;
     public int hp;

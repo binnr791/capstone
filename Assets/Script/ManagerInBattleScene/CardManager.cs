@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[DefaultExecutionOrder(-1)]
 public class CardManager : MonoBehaviour
 {
     public static CardManager instance;
@@ -46,10 +47,6 @@ public class CardManager : MonoBehaviour
     private void Start()
     {
         GenerateDeck();
-        for(int i = 0; i < initialDrawCards; i++)
-        {
-            DrawCard();
-        }
 
         updateGraveUI();
     }
@@ -181,9 +178,8 @@ public class CardManager : MonoBehaviour
     public void GenerateDeck() // use for deck building
     {
         // int[] cardIDList = {1, 1, 1, 1, 1, 1}; // this will be changed to deck cards.
-        // int[] cardIDList = {0, 0, 0, 1, 1, 1, 2, 3, 4}; // this will be changed to deck cards.
-        //int[] cardIDList = {0, 0, 0, 1, 1, 1, 2, 3, 4}; // this will be changed to deck cards.
-        int[] cardIDList = {0, 0, 1, 1, 2, 7, 7, 7, 7, 7}; // recycle deck
+        int[] cardIDList = {0, 0, 0, 1, 1, 1, 2, 3, 4}; // this will be changed to deck cards.
+        // int[] cardIDList = {0, 0, 1, 1, 2, 7, 7, 7, 7, 7}; // recycle deck
         for(int i = 0; i < cardIDList.Length; i++)
         {
             Card newCard = CardDataLoader.instance.GetCard(cardIDList[i]);
@@ -217,20 +213,23 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void UpdateAvailableHand()
     {
-        Character curTurnChar = BattleManager.instance.GetCurrentTurnChar();
-        if(curTurnChar.faction == Faction.Player)
+        if(hand.Count > 0) // 
         {
-            for(int i = 0; i < hand.Count; i++)
+            Character curTurnChar = BattleManager.instance.GetCurrentTurnChar();
+            if(curTurnChar.faction == Faction.Player)
             {
-                hand[i].GetComponent<Cardpop>().isEnoughCost =
-                    BattleManager.instance.GetCurrentTurnChar().stat.stamina >= hand[i].GetComponent<Card>().cost;
+                for(int i = 0; i < hand.Count; i++)
+                {
+                    hand[i].GetComponent<Cardpop>().isEnoughCost =
+                        BattleManager.instance.GetCurrentTurnChar().stat.stamina >= hand[i].GetComponent<Card>().cost;
+                }
             }
-        }
-        else // diable hand when enemy turn
-        {
-            for(int i = 0; i < hand.Count; i++)
+            else // diable hand when enemy turn
             {
-                hand[i].GetComponent<Cardpop>().isEnoughCost = false;
+                for(int i = 0; i < hand.Count; i++)
+                {
+                    hand[i].GetComponent<Cardpop>().isEnoughCost = false;
+                }
             }
         }
     }

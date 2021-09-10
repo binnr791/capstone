@@ -9,16 +9,24 @@ public class EffectLibrary : MonoBehaviour
     //캐릭터 공격
     public void Attack(Character user, Character target, int amount) // user는 사용 캐릭터이고, target은 대상 캐릭터다.
     {
-        target.stat.hp -= amount;
-        // 사망 판정은 effectlibrary에서 하지 않을 겁니다.
-
-        if(target.stat.hp <= 0)
+        if(target.stat.block > 0)
         {
-
+            if(target.stat.block >= amount)
+            {
+                target.stat.block -= amount;
+            }
+            else // 방어도 초과 피해량 계산
+            {
+                int overDmg = Mathf.Abs(target.stat.block - amount);
+                target.stat.block = 0;
+                target.stat.hp -= overDmg;
+            }
         }
-
+        else
+        {
+            target.stat.hp -= amount;
+        }
     }
-
 
     //캐릭터 힐
     public void Heal(Character user, Character target, int amount)

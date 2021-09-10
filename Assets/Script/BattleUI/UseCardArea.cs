@@ -19,7 +19,7 @@ public class UseCardArea : MonoBehaviour, IDropHandler
                     Debug.Log("User Input Required : Choose Single Target");
                     BattleManager.instance.userInput = true;
                     BattleUIManager.instance.EnableCancelUsingCardBtn();
-                    BattleUIManager.instance.EnableInstruction("대상을 지정하세요");
+                    BattleUIManager.instance.EnableInstruction("대상을 지정하십시오");
                     droppedCard.GetComponent<Cardpop>().ExplictlyEndDrag(); // prevent card scale bug when cancel using it
                     droppedCard.gameObject.SetActive(false);
                 }

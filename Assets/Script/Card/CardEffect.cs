@@ -52,7 +52,7 @@ public class CardEffect : MonoBehaviour
         Character attackTarget = targetChar;
         Character healTarget = userChar;
 
-        effectLibrary.Attack(userChar, attackTarget, 3);
+        effectLibrary.Attack(userChar, attackTarget, 4);
         effectLibrary.Heal(userChar, healTarget, 3);
     }
 
@@ -72,7 +72,7 @@ public class CardEffect : MonoBehaviour
         Character targetChar = BattleManager.instance.GetTargetCharacter();
 
 
-        effectLibrary.Attack(user, targetChar, 3);
+        effectLibrary.Attack(user, targetChar, 6);
     }
 
     public void SingleTargetHeal()
@@ -82,7 +82,7 @@ public class CardEffect : MonoBehaviour
         Character targetChar = BattleManager.instance.GetTargetCharacter();
 
 
-        effectLibrary.Heal(user, targetChar, 3);
+        effectLibrary.Heal(user, targetChar, 4);
 
     }
 
