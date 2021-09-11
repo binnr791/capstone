@@ -74,4 +74,33 @@ public class EffectLibrary : MonoBehaviour
 
     }
 
+    public List<Character> GetAllEnemies()
+    {
+        List<Character> enemies = new List<Character>();
+
+        List<Character> characters = BattleManager.instance.charactersInfo;
+        for(int n = 0 ; n < characters.Count; n++)
+        {
+            if(BattleManager.instance.charactersInfo[n].faction == Faction.Enemy)
+            {
+                enemies.Add (BattleManager.instance.charactersInfo[n]);
+            }
+        }
+        return enemies;
+    }
+
+    public List<Character> GetAllPlayers()
+    {
+        List<Character> players = new List<Character>();
+
+        List<Character> characters = BattleManager.instance.charactersInfo;
+        for(int n = 0 ; n < characters.Count; n++)
+        {
+            if(BattleManager.instance.charactersInfo[n].faction == Faction.Player)
+            {
+                players.Add (BattleManager.instance.charactersInfo[n]);
+            }
+        }
+        return players;
+    }
 }

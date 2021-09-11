@@ -88,10 +88,13 @@ public class CardEffect : MonoBehaviour
 
     public void AttackAllEnemy()
     {
-        // int amount = 6;
-        // Character user = BattleManager.instance.GetUserCharacter();
-        // List<Character> targets = BattleManager.instance.GetAllEnemy();
-        // effectLibrary.Attack(user, targets, amount);
+        int amount = 8;
+        Character user = BattleManager.instance.GetUserCharacter();
+        List<Character> targets = effectLibrary.GetAllEnemies();
+        for(int i = 0; i < targets.Count; i++)
+        {
+            effectLibrary.Attack(user, targets[i], amount);
+        }
     }
 
     public void Dedicatation()
@@ -114,7 +117,13 @@ public class CardEffect : MonoBehaviour
 
     public void HealAllAlly()
     {
-
+        int amount = 3;
+        Character user = BattleManager.instance.GetUserCharacter();
+        List<Character> targets = effectLibrary.GetAllPlayers();
+        for(int i = 0; i < targets.Count; i++)
+        {
+            effectLibrary.Heal(user, targets[i], amount);
+        }
     }
 }
 

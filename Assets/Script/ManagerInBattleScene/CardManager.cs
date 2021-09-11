@@ -178,8 +178,9 @@ public class CardManager : MonoBehaviour
     public void GenerateDeck() // use for deck building
     {
         // int[] cardIDList = {1, 1, 1, 1, 1, 1}; // this will be changed to deck cards.
-        int[] cardIDList = {0, 0, 0, 1, 1, 1, 2, 3, 4}; // this will be changed to deck cards.
+        // int[] cardIDList = {0, 0, 0, 1, 1, 1, 2, 3, 4}; // this will be changed to deck cards.
         // int[] cardIDList = {0, 0, 1, 1, 2, 7, 7, 7, 7, 7}; // recycle deck
+        int[] cardIDList = {4, 4, 4, 4, 8, 8, 8, 8}; // recycle deck
         for(int i = 0; i < cardIDList.Length; i++)
         {
             Card newCard = CardDataLoader.instance.GetCard(cardIDList[i]);
@@ -216,20 +217,27 @@ public class CardManager : MonoBehaviour
         if(hand.Count > 0) // 
         {
             Character curTurnChar = BattleManager.instance.GetCurrentTurnChar();
-            if(curTurnChar.faction == Faction.Player)
+            if(curTurnChar != null)
             {
-                for(int i = 0; i < hand.Count; i++)
+                if(curTurnChar.faction == Faction.Player)
                 {
-                    hand[i].GetComponent<Cardpop>().isEnoughCost =
-                        BattleManager.instance.GetCurrentTurnChar().stat.stamina >= hand[i].GetComponent<Card>().cost;
+                    for(int i = 0; i < hand.Count; i++)
+                    {
+                        hand[i].GetComponent<Cardpop>().isEnoughCost =
+                            BattleManager.instance.GetCurrentTurnChar().stat.stamina >= hand[i].GetComponent<Card>().cost;
+                    }
+                }
+                else // diable hand when enemy turn
+                {
+                    for(int i = 0; i < hand.Count; i++)
+                    {
+                        hand[i].GetComponent<Cardpop>().isEnoughCost = false;
+                    }
                 }
             }
-            else // diable hand when enemy turn
+            else
             {
-                for(int i = 0; i < hand.Count; i++)
-                {
-                    hand[i].GetComponent<Cardpop>().isEnoughCost = false;
-                }
+                return;
             }
         }
     }

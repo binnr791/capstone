@@ -1902,7 +1902,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1229610258}
         m_MethodName: DrawCardDebugVer
         m_Mode: 1
         m_Arguments:
@@ -2245,6 +2245,7 @@ MonoBehaviour:
   userInput: 1
   targetCharacter: -1
   userCharacter: -1
+  initialDrawCards: 4
   currentTurnChar: {fileID: 0}
   charactersInfo: []
   usingCard: {fileID: 0}

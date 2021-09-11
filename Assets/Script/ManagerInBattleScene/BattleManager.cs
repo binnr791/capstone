@@ -59,8 +59,6 @@ public class BattleManager : MonoBehaviour
 
         Debug.Log("Current Num of Characters : " + turnList.Count);
 
-        TurnAssignment(); // turn assignment를 먼저 호출하지 않으면 battleStart - stamina 변경시 오류 발생
-
         for(int i = 0; i < characters.Count; i++)
         {
             if(characters[i].GetComponent<Character>().faction == Faction.Player)
@@ -73,16 +71,13 @@ public class BattleManager : MonoBehaviour
             CardManager.instance.DrawCard();
         }
 
-        StartCyclePhase(); // turn assignment는 호출하지 않음
+        StartCyclePhase();
     }
 
     public void StartCyclePhase()
     {
-        if (turnNum >= turnList.Count)
-        {
-            turnNum = -1;
-            TurnAssignment();
-        }
+        turnNum = -1;
+        TurnAssignment();
         StartTurnPhase();
     }
 
@@ -130,6 +125,7 @@ public class BattleManager : MonoBehaviour
     public void EnemyActPhase()
     {
         enemyAct.GetRandomEnemyAction() ();
+        CheckGameState();
         TurnEnd();
     }
     
@@ -266,27 +262,30 @@ public class BattleManager : MonoBehaviour
                 GameObject deadChar = turnList[i];
                 deadChar.SetActive(false);
                 //charactersInfo.Remove(deadChar.GetComponent<Character>());
-                turnList.Remove(deadChar);
+                
                 Debug.Log("Current Number of Characters : " + turnList.Count);
                 Debug.Log("now turn " + turnNum);
-                if(i < turnNum) // 앞순서의 적이 죽었을때 순서를 1씩 당겨줌
+
+                if(i <= turnNum) // 앞순서의 적이 죽었을때 순서를 1씩 당겨줌, 이 사이클에서 먼저 턴을 가졌었던 캐릭터가 죽는 경우
                 {
+                    if(i == turnNum) // 턴을 가진 캐릭터가 죽을 때의 처리
+                    {
+                        nextPhase = SkipTurnPhase;
+                    }
                     turnNum--;
+                    i--;
                 }
 
-                // Character deadChar = turnList[i].GetComponent<Character>(); // not use
-                // charactersInfo[deadChar.index.gameObject.SetActive(false);
-                // charactersInfo.RemoveAt(deadChar.index);
-                // turnList.RemoveAt(i);
-
-                if(i == turnNum) // 턴을 가진 캐릭터가 죽을 때의 처리
-                {
-                    turnNum--;
-                    nextPhase = SkipTurnPhase;
-                }
-
+                turnList.Remove(deadChar);
+                charactersInfo.RemoveAt(deadChar.GetComponent<Character>().index);
                 
-                // 대상 지정 영역 갱신 필요
+                // 캐릭터 인덱스 갱신 필요
+                int newCharIndex = 0;
+                for(int c = 0; c < charactersInfo.Count; c++)
+                {
+                    charactersInfo[c].index = newCharIndex;
+                    newCharIndex++;
+                }
             }
         }
         return isDead;
@@ -365,22 +364,16 @@ public class BattleManager : MonoBehaviour
 
     public Character GetUserCharacter()
     {
-        if(GetCurrentTurnChar().faction == Faction.Player)
-        {
-            return charactersInfo[userCharacter];
-        }
-        else if(GetCurrentTurnChar().faction == Faction.Enemy)
-        {
-            return GetCurrentTurnChar();
-        }
-        else
-        {
-            return null;
-        }
+        Character currentChar = GetCurrentTurnChar();
+        return currentChar;
     }
 
     public Character GetCurrentTurnChar()
     {
+        if(turnNum < 0)
+        {
+            return null;
+        }
         currentTurnChar = turnList[turnNum].GetComponent<Character>();
         return turnList[turnNum].GetComponent<Character>();
     }

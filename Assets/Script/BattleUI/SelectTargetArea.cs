@@ -5,14 +5,20 @@ using UnityEngine.EventSystems;
 
 public class SelectTargetArea : MonoBehaviour, IPointerDownHandler
 {
-    public int charIndex; // 외부에서 초기화하기, 몇 번째 캐릭터를 선택했는지 전달하기 위해 필요한 변수
+    private int _charIndex; // 외부에서 초기화하기, 몇 번째 캐릭터를 선택했는지 전달하기 위해 필요한 변수
+    public int charIndex
+    {
+        get => GetComponent<RectTransform>().parent.GetComponent<Character>().index; // automatically update
+        set => _charIndex = value;
+    }
+    
     public bool isEnemyArea;
     public static int usableCost;
 
-    private void Start()
-    {
-        charIndex = GetComponent<RectTransform>().parent.GetComponent<Character>().index; // 이 라인이 에러나면 부모-자식 구조를 바꿀것.
-    }
+    // private void Start()
+    // {
+    //     charIndex = GetComponent<RectTransform>().parent.GetComponent<Character>().index; // 이 라인이 에러나면 부모-자식 구조를 바꿀것.
+    // }
 
     public void OnPointerDown(PointerEventData eventData) // 대상 지정
     {
