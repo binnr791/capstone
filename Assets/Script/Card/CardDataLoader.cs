@@ -43,6 +43,8 @@ public class CardDataLoader : MonoBehaviour
         cardDataDict[7] = new cardData(7, "Recylce Attack", "재활용, 대상 적에게 7 피해를 준다.", 4);
         cardDataDict[8] = new cardData(8, "Heal All Ally", "모든 아군의 체력을 3 회복시킨다.", 4);
 
+        cardDataDict[10] = new cardData(10, "Poison", "대상에게 3턴 동안 독을 부여한다.", 3);
+        cardDataDict[11] = new cardData(11, "Stun", "대상에게 1턴 동안 기절을 부여한다.", 7);
     }
 
     // public Card CreateCard()

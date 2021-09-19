@@ -70,8 +70,11 @@ public class EffectLibrary : MonoBehaviour
         //그 캐릭터의 스테미나를 증가시킨다.스테미나는 최댓값이 없다.
 
         target.stat.stamina += amount;
+    }
 
-
+    public void AddStatusEffect(Character target, StatusEffectID statusEffectID, int remainTurn)
+    {
+        target.AddStatusEffect(statusEffectID, remainTurn);
     }
 
     public List<Character> GetAllEnemies()

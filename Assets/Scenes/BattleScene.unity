@@ -2139,6 +2139,7 @@ GameObject:
   - component: {fileID: 1229610256}
   - component: {fileID: 1229610257}
   - component: {fileID: 1229610259}
+  - component: {fileID: 1229610262}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -2287,13 +2288,13 @@ MonoBehaviour:
   field: {fileID: 982736830}
   characterStats:
   - maxhp: 25
-    hp: 10
+    hp: 1
     baseSpeed: 50
     charSprite: {fileID: 769586727854661530, guid: a0850ea8feedf1c4d9dbdc550b890a15,
       type: 3}
     charName: Mage
   - maxhp: 25
-    hp: 10
+    hp: 1
     baseSpeed: 50
     charSprite: {fileID: -6807821627717974024, guid: 69b25c63a985c5e47bbade23b8916c55,
       type: 3}
@@ -2337,6 +2338,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charactersInfo: []
   EnemyTarget: []
+--- !u!114 &1229610262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229610251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cb4c96174a38c4ebdb48db21d65956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1292377057
 GameObject:
   m_ObjectHideFlags: 0
@@ -2795,6 +2808,49 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!1 &1570059674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1570059676}
+  - component: {fileID: 1570059675}
+  m_Layer: 0
+  m_Name: ResourceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1570059675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570059674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63395bd761dd15048bab46be699255d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1570059676
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570059674}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1194.8535, y: 501.2339, z: -953.625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1584475122
 GameObject:
   m_ObjectHideFlags: 0

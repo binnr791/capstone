@@ -36,6 +36,9 @@ public class CardEffect : MonoBehaviour
         idToEffect[7] = new CardEffectInfo(RecylceAttack, recycleProperties);
 
         idToEffect[8] = new CardEffectInfo(HealAllAlly, null);
+
+        idToEffect[10] = new CardEffectInfo(Poison, chooseTargetProperty);
+        idToEffect[11] = new CardEffectInfo(Stun, chooseTargetProperty);
     }
 
     public CardEffectInfo GetEffectInfo(int id)
@@ -124,6 +127,20 @@ public class CardEffect : MonoBehaviour
         {
             effectLibrary.Heal(user, targets[i], amount);
         }
+    }
+
+    public void Poison()
+    {
+        int amount = 3;
+        Character target = BattleManager.instance.GetTargetCharacter();
+        effectLibrary.AddStatusEffect(target, StatusEffectID.poison, amount);
+    }
+
+    public void Stun()
+    {
+        int amount = 1;
+        Character target = BattleManager.instance.GetTargetCharacter();
+        effectLibrary.AddStatusEffect(target, StatusEffectID.stun, amount);
     }
 }
 

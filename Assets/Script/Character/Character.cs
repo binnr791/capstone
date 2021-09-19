@@ -35,13 +35,13 @@ public class Character : MonoBehaviour
     private void Awake()
     {
         statusEffects = new List<StatusEffect>();
-        TurnEndFunc += UpdateStatusEffect;
+        TurnEndFunc += UpdateStatusEffectLogic;
     }
 
     private void Start()
     {
         charNameText.text = charName;
-        UpdateStatusEffect();
+        UpdateStatusEffectUI();
     }
 
     void Update()
@@ -65,14 +65,26 @@ public class Character : MonoBehaviour
         TurnEndFunc();
     }
 
-    public void AddStatusEffect(int statusID, int _remainTurn)
+    public bool HasStatusEffect(StatusEffectID statusID)
+    {
+        for(int i = 0; i < statusEffects.Count; i++)
+        {
+            if(statusEffects[i] != null && statusEffects[i].id == statusID)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void AddStatusEffect(StatusEffectID statusID, int _remainTurn)
     {
         for(int i = 0; i < statusEffects.Count; i++)
         {
             if(statusEffects[i] != null && statusEffects[i].id == statusID)
             {
                 statusEffects[i].remainTurn += _remainTurn;
-                UpdateStatusEffect();
+                UpdateStatusEffectUI();
                 return;
             }
         }
@@ -80,29 +92,34 @@ public class Character : MonoBehaviour
         {
             return;
         }
-        statusEffects.Add(new StatusEffect(_remainTurn));
-        UpdateStatusEffect();
+        statusEffects.Add(StatusEffectManager.instance.createStatusEffect(statusID, _remainTurn, this));
+        UpdateStatusEffectUI();
     }
 
-    public void UpdateStatusEffect()
+    public void UpdateStatusEffectLogic()
     {
         // update logic
         for(int i = 0; i < statusEffects.Count; i++)
         {
+            statusEffects[i].OnTurnEnd?.Invoke(this); // ? is null checking
             statusEffects[i].remainTurn -= 1;
             if(statusEffects[i].remainTurn <= 0)
             {
                 statusEffects.RemoveAt(i);
-                statusEffectBar.transform.GetChild(i).GetComponent<Image>();
-                statusEffectBar.transform.GetChild(i).GetChild(0).GetComponent<Text>().text = statusEffects[i].remainTurn.ToString();
             }
             i -= 1;
         }
+        UpdateStatusEffectUI();
+    }
 
+    public void UpdateStatusEffectUI()
+    {
         // update ui
         for(int i = 0; i < statusEffects.Count; i++)
         {
-             statusEffectBar.transform.GetChild(i).gameObject.SetActive(true);
+            statusEffectBar.transform.GetChild(i).gameObject.SetActive(true);
+            statusEffectBar.transform.GetChild(i).GetComponent<Image>().sprite = ResourceManager.instance.GetStatusEffectSprite(statusEffects[i].id);
+            statusEffectBar.transform.GetChild(i).GetChild(0).GetComponent<Text>().text = statusEffects[i].remainTurn.ToString();
         }
 
         for(int i = statusEffects.Count; i < maxStatusEffectCount; i++)

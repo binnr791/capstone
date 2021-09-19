@@ -98,6 +98,13 @@ public class BattleManager : MonoBehaviour
 
     void StartTurnPhase()
     {
+        if(turnList[turnNum].GetComponent<Character>().HasStatusEffect(StatusEffectID.stun))
+        {
+            Debug.Log(GetCurrentTurnChar().charName + " is stunned!");
+            TurnEnd();
+            return;
+        }
+        
         //Player Turn
         if(turnList[turnNum].GetComponent<Character>().faction == Faction.Player)
         {
@@ -124,9 +131,10 @@ public class BattleManager : MonoBehaviour
 
     public void EnemyActPhase()
     {
+        nextPhase = TurnEnd;
         enemyAct.GetRandomEnemyAction() ();
         CheckGameState();
-        TurnEnd();
+        NextPhase();
     }
     
     public void DrawTurn()
@@ -147,9 +155,9 @@ public class BattleManager : MonoBehaviour
 
     public void TurnEnd()
     {
+        nextPhase = StartTurnPhase;
         if(GetCurrentTurnChar().faction == Faction.Player)
         {
-            GetCurrentTurnChar().TurnEndEvent();
             playerAct = false;
             GetCurrentTurnChar().nowturn.color = new Color(165 / 255f, 1, 108 / 255f, 70/ 255f);
             Debug.Log("Player Turn End");
@@ -162,15 +170,13 @@ public class BattleManager : MonoBehaviour
         {
             Debug.LogError("Not implemented turn end of new faction char!");
         }
+        GetCurrentTurnChar().TurnEndEvent();
         turnNum++;
-        if (turnNum >= turnList.Count)
+        if (turnNum >= turnList.Count && nextPhase == StartTurnPhase)
         {
-            StartCyclePhase();
+            nextPhase = StartCyclePhase;
         }
-        else
-        {
-            StartTurnPhase();
-        }
+        NextPhase();
     }
     
     public void ChooseGainStamina() // not phase
@@ -251,7 +257,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public bool CheckCharDeath()
+    private bool CheckCharDeath()
     {
         bool isDead = false;
         for(int i = 0; i < turnList.Count; i++)
