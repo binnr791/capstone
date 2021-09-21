@@ -6,7 +6,7 @@ public class TestSave : MonoBehaviour
 {
     private void Awake()
     {
-        SaveData testData = new SaveData();
+        SaveGameData testData = new SaveGameData();
         testData.version = 0.1f;
         testData.seed = 0;
         
