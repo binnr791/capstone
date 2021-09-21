@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 
 public static class SaveManager
 {
+    public static SaveSettingsData settings;
+
     public static bool SaveGame(SaveGameData saveData)
     {
         if(!Directory.Exists(GetSaveFolderPath()))
@@ -84,8 +86,9 @@ public static class SaveManager
         catch
         {
             Debug.LogError("Failed to load settings, create default settings");
-            SaveSettings(CreateDefaultSettings());
-            return null;
+            settings = CreateDefaultSettings();
+            SaveSettings(settings);
+            return settings;
         }
     }
 
@@ -113,8 +116,8 @@ public static class SaveManager
     {
         SaveSettingsData defaultSettings = new SaveSettingsData();
 
-        defaultSettings.bgmLoudness = 0.5f;
-        defaultSettings.sfxLoudness = 0.5f;
+        defaultSettings.bgmVolume = 0.5f;
+        defaultSettings.sfxVolume = 0.5f;
 
         return defaultSettings;
     }

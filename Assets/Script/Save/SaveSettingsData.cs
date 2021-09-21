@@ -9,6 +9,6 @@ public class SaveSettingsData
 
 
     // sound
-    public float bgmLoudness;
-    public float sfxLoudness;   
+    public float bgmVolume;
+    public float sfxVolume;   
 }
