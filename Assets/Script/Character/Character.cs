@@ -106,8 +106,8 @@ public class Character : MonoBehaviour
             if(statusEffects[i].remainTurn <= 0)
             {
                 statusEffects.RemoveAt(i);
+                i -= 1;
             }
-            i -= 1;
         }
         UpdateStatusEffectUI();
     }

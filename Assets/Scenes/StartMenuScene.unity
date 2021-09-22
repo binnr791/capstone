@@ -831,6 +831,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 509820051}
   m_CullTransparentMesh: 0
+--- !u!114 &515486982 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3503583362306768578, guid: c483722c719f4b14fa195552c441620c,
+    type: 3}
+  m_PrefabInstance: {fileID: 976775888}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &617766610
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,7 +1227,7 @@ PrefabInstance:
     - target: {fileID: 3503583362306768578, guid: c483722c719f4b14fa195552c441620c,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetSFXLoudness
+      value: SetSFXVolume
       objectReference: {fileID: 0}
     - target: {fileID: 3503583362306768578, guid: c483722c719f4b14fa195552c441620c,
         type: 3}
@@ -1666,7 +1678,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 000
+  m_Text: 0
 --- !u!222 &1131925404
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2195,11 +2207,13 @@ MonoBehaviour:
   settingMenu: {fileID: 915064043}
   GameplaySettingsTab: {fileID: 624720661}
   SoundSettingsTab: {fileID: 617766610}
+  bgmVolumeSlider: {fileID: 2125653305}
   bgmVolumeText: {fileID: 1131925403}
+  sfxVolumeSlider: {fileID: 515486982}
   sfxVolumeText: {fileID: 1522155676}
   settings:
-    bgmLoudness: 0
-    sfxLoudness: 0
+    bgmVolume: 0
+    sfxVolume: 0
 --- !u!4 &1520885396
 Transform:
   m_ObjectHideFlags: 0
@@ -2891,6 +2905,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2107134046}
   m_CullTransparentMesh: 0
+--- !u!114 &2125653305 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3503583362306768578, guid: c483722c719f4b14fa195552c441620c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1606630182061737981}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1606630182061737981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2921,7 +2947,7 @@ PrefabInstance:
     - target: {fileID: 3503583362306768578, guid: c483722c719f4b14fa195552c441620c,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetBGMLoudness
+      value: SetBGMVolume
       objectReference: {fileID: 0}
     - target: {fileID: 3503583362306768578, guid: c483722c719f4b14fa195552c441620c,
         type: 3}

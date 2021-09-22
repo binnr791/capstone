@@ -45,6 +45,7 @@ public class CardDataLoader : MonoBehaviour
 
         cardDataDict[10] = new cardData(10, "Poison", "대상에게 3턴 동안 독을 부여한다.", 3);
         cardDataDict[11] = new cardData(11, "Stun", "대상에게 1턴 동안 기절을 부여한다.", 7);
+        cardDataDict[12] = new cardData(12, "Weakening", "대상에게 2턴 동안 약화를 부여한다.", 3);
     }
 
     // public Card CreateCard()

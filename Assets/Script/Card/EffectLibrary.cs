@@ -9,6 +9,10 @@ public class EffectLibrary : MonoBehaviour
     //캐릭터 공격
     public void Attack(Character user, Character target, int amount) // user는 사용 캐릭터이고, target은 대상 캐릭터다.
     {
+        if(user.HasStatusEffect(StatusEffectID.weakening))
+        {
+            amount = (int)(amount * 0.75f);
+        }
         if(target.stat.block > 0)
         {
             if(target.stat.block >= amount)

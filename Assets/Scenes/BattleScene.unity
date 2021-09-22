@@ -2288,26 +2288,26 @@ MonoBehaviour:
   field: {fileID: 982736830}
   characterStats:
   - maxhp: 25
-    hp: 1
+    hp: 10
     baseSpeed: 50
     charSprite: {fileID: 769586727854661530, guid: a0850ea8feedf1c4d9dbdc550b890a15,
       type: 3}
     charName: Mage
   - maxhp: 25
-    hp: 1
+    hp: 10
     baseSpeed: 50
     charSprite: {fileID: -6807821627717974024, guid: 69b25c63a985c5e47bbade23b8916c55,
       type: 3}
     charName: Axe Warrior
   enemyStats:
   - maxhp: 25
-    hp: 1
+    hp: 10
     baseSpeed: 50
     charSprite: {fileID: 7463052525445407433, guid: cf00b96b8dd12cc47841bafd35089e07,
       type: 3}
     charName: Blue Slime
   - maxhp: 25
-    hp: 1
+    hp: 10
     baseSpeed: 50
     charSprite: {fileID: -823039087019788674, guid: d74180b988a74ec4da07fc64d4c64f84,
       type: 3}

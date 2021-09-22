@@ -18,6 +18,7 @@ public class ResourceManager : MonoBehaviour
         Sprite poisonSE = LoadSpriteIcon("Poison");
         Sprite stunSE = LoadSpriteIcon("Stun");
         Sprite bleedingSE = LoadSpriteIcon("Bleeding");
+        Sprite weakeningSE = LoadSpriteIcon("Weakening");
 
         statusEffectSpriteDict = new Dictionary<StatusEffectID, Sprite>
         {
@@ -32,6 +33,14 @@ public class ResourceManager : MonoBehaviour
             {
                 StatusEffectID.stun,
                 stunSE
+            },
+            {
+                StatusEffectID.weakening,
+                weakeningSE
+            },
+            {
+                StatusEffectID.randomDebuff,
+                null
             }
         };
     }

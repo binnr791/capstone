@@ -181,7 +181,7 @@ public class CardManager : MonoBehaviour
         // int[] cardIDList = {0, 0, 0, 1, 1, 1, 2, 3, 4}; // this will be changed to deck cards.
         // int[] cardIDList = {0, 0, 1, 1, 2, 7, 7, 7, 7, 7}; // recycle deck
         // int[] cardIDList = {4, 4, 4, 4, 8, 8, 8, 8}; // recycle deck
-        int[] cardIDList = {10, 10, 10, 11, 11, 11, 11, 0}; // status effect deck
+        int[] cardIDList = {10, 10, 10, 12, 12, 12, 12, 0}; // status effect deck
         for(int i = 0; i < cardIDList.Length; i++)
         {
             Card newCard = CardDataLoader.instance.GetCard(cardIDList[i]);

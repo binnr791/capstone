@@ -39,6 +39,7 @@ public class CardEffect : MonoBehaviour
 
         idToEffect[10] = new CardEffectInfo(Poison, chooseTargetProperty);
         idToEffect[11] = new CardEffectInfo(Stun, chooseTargetProperty);
+        idToEffect[12] = new CardEffectInfo(Weakening, chooseTargetProperty);
     }
 
     public CardEffectInfo GetEffectInfo(int id)
@@ -141,6 +142,13 @@ public class CardEffect : MonoBehaviour
         int amount = 1;
         Character target = BattleManager.instance.GetTargetCharacter();
         effectLibrary.AddStatusEffect(target, StatusEffectID.stun, amount);
+    }
+
+    public void Weakening()
+    {
+        int amount = 2;
+        Character target = BattleManager.instance.GetTargetCharacter();
+        effectLibrary.AddStatusEffect(target, StatusEffectID.weakening, amount);
     }
 }
 
