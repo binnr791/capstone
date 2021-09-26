@@ -23,6 +23,7 @@ public static class SaveManager
             
             FileStream saveFile = File.Open(GetSaveGameFilePath(), FileMode.OpenOrCreate);
             saveFile.Write(Encoding.UTF8.GetBytes(rawData), 0, rawData.Length);
+            saveFile.Close();
         }
         catch
         {
@@ -45,6 +46,7 @@ public static class SaveManager
             
             FileStream saveFile = File.Open(GetSaveSettingsFilePath(), FileMode.OpenOrCreate);
             saveFile.Write(Encoding.UTF8.GetBytes(rawData), 0, rawData.Length);
+            saveFile.Close();
         }
         catch
         {

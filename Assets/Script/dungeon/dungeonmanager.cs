@@ -4,10 +4,10 @@ using UnityEngine;
 
 using UnityEngine.UI;
 
-public class dungeonmanager : MonoBehaviour
+public class DungeonManager : MonoBehaviour
 {
 
-    public static dungeonmanager instance;
+    public static DungeonManager instance;
 
     public GameObject deckbutton;
     public GameObject showDeckPanel;
