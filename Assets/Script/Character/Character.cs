@@ -30,6 +30,9 @@ public class Character : MonoBehaviour
     protected delegate void turnEndFunc();
     protected turnEndFunc TurnEndFunc;
 
+    protected PerkID _perk;
+    public PerkID perk { get => _perk; private set => _perk = value; }
+
     [HideInInspector] public string charName;
 
     private void Awake()
@@ -42,6 +45,11 @@ public class Character : MonoBehaviour
     {
         charNameText.text = charName;
         UpdateStatusEffectUI();
+    }
+
+    public void Init(PerkID perk)
+    {
+        _perk = perk;
     }
 
     void Update()
