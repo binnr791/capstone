@@ -15,7 +15,7 @@ public class EffectLibrary : MonoBehaviour
 
     public void Attack(Character user, Character target, int amount) // user는 사용 캐릭터이고, target은 대상 캐릭터다.
     {
-        if(perkManager.perkDict[user.perk] != null) // 코드 중복 제거한다고 합치지 말 것
+        if(perkManager.perkDict.ContainsKey(user.perk)) // 코드 중복 제거한다고 합치지 말 것
         {
             perkManager.perkDict[user.perk](ref amount);
         }
@@ -50,7 +50,7 @@ public class EffectLibrary : MonoBehaviour
     //캐릭터 힐
     public void Heal(Character user, Character target, int amount)
     {
-        if(perkManager.perkDict[user.perk] != null)
+        if(perkManager.perkDict.ContainsKey(user.perk))
         {
             perkManager.perkDict[user.perk](ref amount);
         }
@@ -82,7 +82,7 @@ public class EffectLibrary : MonoBehaviour
 
     public void Armor(Character user, Character target, int amount) //방어도 증가
     {
-        if(perkManager.perkDict[user.perk] != null) // 코드 중복 제거한다고 합치지 말 것
+        if(perkManager.perkDict.ContainsKey(user.perk)) // 코드 중복 제거한다고 합치지 말 것
         {
             perkManager.perkDict[user.perk](ref amount);
         }
@@ -100,13 +100,13 @@ public class EffectLibrary : MonoBehaviour
 
     public void Dedicate(Character user, Character target, int amount)  //헌신
     {
-        if(perkManager.perkDict[user.perk] != null) // 코드 중복 제거한다고 합치지 말 것
+        if(perkManager.perkDict.ContainsKey(user.perk)) // 코드 중복 제거한다고 합치지 말 것
         {
             perkManager.perkDict[user.perk](ref amount);
         }
         else
         {
-            Debug.Log("User : " + user + "'s perk is not initialized.");
+            Debug.Log("User : " + user.charName + "'s perk is not initialized.");
         }
         //파라미터로 들어온 정보에, 스테미나를 얻을 캐릭터를 넣을 것이다.
         //그 캐릭터의 스테미나를 증가시킨다.스테미나는 최댓값이 없다.
