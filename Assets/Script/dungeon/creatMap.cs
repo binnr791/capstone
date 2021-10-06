@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.UI;
+
 public class creatMap : MonoBehaviour
 {
-    // Start is called before the first frame update
-    int[,] dungeonMap;
-    int[,] mapDistance;
+    [Header("Dungeon Data")]
+    [SerializeField] int[,] dungeonMap;
+    [SerializeField] int[,] mapDistance;
     int max_distance;
     int[,] map_nodes;
-    int start_x, start_y;
+    [SerializeField] int start_x, start_y;
     [SerializeField] RectTransform maps;
+
+    [Header("Layout")]
+    [SerializeField] float paddingX;
+    [SerializeField] float paddingY;
 
     private void Awake()
     {
@@ -32,12 +38,13 @@ public class creatMap : MonoBehaviour
         }
         mapView(16);
     }
+
     void makeMap(int count)
     {
         max_distance = 0;
         //시작위치 랜덤생성
-        start_x = Random.Range(1,11);
-        start_y = Random.Range(1,11);
+        start_x = Random.Range(1, 11);
+        start_y = Random.Range(1, 11);
         dungeonMap[start_x, start_y] = 1;
         mapDistance[start_x, start_y] = 0;
         map_nodes = new int[count,2];
@@ -101,7 +108,7 @@ public class creatMap : MonoBehaviour
 
     void mapView(int count)
     {
-        GameObject mapPrefab = Resources.Load<GameObject>("Sprite/Map/Map");
+        GameObject mapPrefab = Resources.Load<GameObject>("Prefab/Map/Node");
         List<GameObject> mapList = new List<GameObject>();
 
         for(int i = 1; i < 12; i++)
@@ -111,8 +118,16 @@ public class creatMap : MonoBehaviour
                 if(dungeonMap[i,j] == 1)
                 {
                     GameObject mapObj = Instantiate(mapPrefab);
-                    mapObj.GetComponent<RectTransform>().SetParent(maps);
-                    mapObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-910+140*i, -520+80*j);
+                    RectTransform nodeTransform = mapObj.GetComponent<RectTransform>();
+                    nodeTransform.SetParent(maps);
+                    nodeTransform.anchoredPosition = new Vector2(+paddingX*i, +paddingY*j);
+                    if(start_x == i && start_y == j)
+                    {
+                        mapObj.GetComponent<Image>().color = Color.red;
+                        // 시작 노드는 항상 중앙으로 오게 만듦
+                        Vector2 distFromCenter = nodeTransform.anchoredPosition - maps.anchoredPosition;
+                        maps.anchoredPosition = maps.anchoredPosition - distFromCenter;
+                    }
                 }
             }
         }

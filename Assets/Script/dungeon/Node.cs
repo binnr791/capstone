@@ -21,6 +21,7 @@ public class Node : MonoBehaviour, IComparable<Node>
     {
         throw new NotImplementedException();
     }
+    
 }
 
 public enum NodeEvent

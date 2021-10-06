@@ -41,10 +41,6 @@ public class NodeManager : MonoBehaviour
     }
     public void NodeEvent() //노드 이벤트
     {
-        // if(node.eventstatus == trap)
-        // {
-
-        // }
         // if(node.eventstatus == cardGain)
         // {
 
