@@ -324,11 +324,13 @@ public class BattleManager : MonoBehaviour
     private void WinGame()
     {
         Debug.Log("You Win");
+        BattleUIManager.instance.notice("You Win!");
     }
 
     private void LoseGame()
     {
         Debug.Log("You Lose");
+        BattleUIManager.instance.notice("You Lose!");
     }
 
     // public void PassTurnPhase() // 참고용 구현, 이 주석 라인은 읽고 삭제하기
