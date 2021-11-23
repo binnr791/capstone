@@ -1,0 +1,52 @@
+[
+    {
+        "id" : 0,
+        "name" : "Default Name",
+        "description" : "Default Description",
+        "charIconImage" : "",
+        "fullLengthCharImage" : ""
+    },
+    {
+        "id" : 1,
+        "name" : "Warrior",
+        "description" : "Warrior Description",
+        "charIconImage" : "",
+        "fullLengthCharImage" : ""
+    },
+    {
+        "id" : 2,
+        "name" : "Magician",
+        "description" : "Magician Description",
+        "charIconImage" : "",
+        "fullLengthCharImage" : ""
+    },
+    {
+        "id" : 3,
+        "name" : "",
+        "description" : "",
+        "charIconImage" : "",
+        "fullLengthCharImage" : ""
+    },
+    {
+        "id" : 4,
+        "name" : "",
+        "description" : "",
+        "charIconImage" : "",
+        "fullLengthCharImage" : ""
+    },
+    {
+        "id" : 5,
+        "name" : "",
+        "description" : "",
+        "charIconImage" : "",
+        "fullLengthCharImage" : ""
+    },
+    {
+        "id" : 6,
+        "name" : "",
+        "description" : "",
+        "charIconImage" : "",
+        "fullLengthCharImage" : ""
+    }
+
+]
