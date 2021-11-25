@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using System.IO;
+
 public class StartMenuManager : MonoBehaviour
 {
     [Header("UI Canvas")]
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject settingMenu;
+    [SerializeField] GameObject selectCharacterMenu;
 
+    //----------OPTIONS-----------
     [Header("Settings Tab")]
     [SerializeField] GameObject GameplaySettingsTab;
     [SerializeField] GameObject SoundSettingsTab;
@@ -27,6 +31,8 @@ public class StartMenuManager : MonoBehaviour
 
         bgmVolumeSlider.value = settings.bgmVolume;
         sfxVolumeSlider.value = settings.sfxVolume;
+
+        DisableNewGame();
     }
 
     public void OpenSettings()
@@ -43,7 +49,15 @@ public class StartMenuManager : MonoBehaviour
     {
         startMenu.SetActive(true);
         settingMenu.SetActive(false);
+        selectCharacterMenu.SetActive(false);
         SaveManager.SaveSettings(settings);
+    }
+
+    public void OpenSelectCharacterMenu()
+    {
+        startMenu.SetActive(false);
+        settingMenu.SetActive(false);
+        selectCharacterMenu.SetActive(true);
     }
 
     public void ChangeToGameplayTab()
@@ -56,6 +70,11 @@ public class StartMenuManager : MonoBehaviour
     {
         GameplaySettingsTab.SetActive(false);
         SoundSettingsTab.SetActive(true);
+    }
+
+    public void DisableNewGame()
+    {
+        
     }
 
     public void SetBGMVolume(float newValue)

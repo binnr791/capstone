@@ -10,22 +10,22 @@
         "id" : 1,
         "name" : "Warrior",
         "description" : "Warrior Description",
-        "charIconImage" : "",
-        "fullLengthCharImage" : ""
+        "charIconImage" : "Human 3 64x48",
+        "fullLengthCharImage" : "Human 3 64x48"
     },
     {
         "id" : 2,
         "name" : "Magician",
         "description" : "Magician Description",
-        "charIconImage" : "",
-        "fullLengthCharImage" : ""
+        "charIconImage" : "Mages Fire 80x64",
+        "fullLengthCharImage" : "Mages Fire 80x64"
     },
     {
         "id" : 3,
-        "name" : "",
-        "description" : "",
-        "charIconImage" : "",
-        "fullLengthCharImage" : ""
+        "name" : "Knight",
+        "description" : "Knight Description",
+        "charIconImage" : "Human 1 64x48",
+        "fullLengthCharImage" : "Human 1 64x48"
     },
     {
         "id" : 4,

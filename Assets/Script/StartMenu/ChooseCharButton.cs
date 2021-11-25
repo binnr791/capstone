@@ -10,6 +10,6 @@ public class ChooseCharButton : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ChooseCharacterManager.instance.UpdateCharText(index);
+        ChooseCharacterManager.instance.UpdateCharInfo(index);
     }
 }
